@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import gsap from 'gsap'
+import { AboutIcon, ContactIcon, ExperimentsIcon, WorkIcon } from './visuals/NavIcons'
 
 const LINKS = [
-  { label: 'About', hash: '#about' },
-  { label: 'Work', hash: '#work' },
-  { label: 'Experiments', hash: '/experiments' },
-  { label: 'Contact', hash: '#contact' },
+  { label: 'About', hash: '#about', Icon: AboutIcon, tilt: -8 },
+  { label: 'Work', hash: '#work', Icon: WorkIcon, tilt: 5 },
+  { label: 'Experiments', hash: '/experiments', Icon: ExperimentsIcon, tilt: -6 },
+  { label: 'Contact', hash: '#contact', Icon: ContactIcon, tilt: 7 },
 ]
 
 export default function Nav() {
@@ -14,6 +16,10 @@ export default function Nav() {
   const lastY = useRef(0)
   const navigate = useNavigate()
   const location = useLocation()
+
+  const listRef = useRef<HTMLUListElement>(null)
+  const itemRefs = useRef<Array<HTMLLIElement | null>>([])
+  const pillRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     let ticking = false
@@ -54,6 +60,32 @@ export default function Nav() {
     el?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const movePillTo = (index: number) => {
+    const item = itemRefs.current[index]
+    const list = listRef.current
+    const pill = pillRef.current
+    if (!item || !list || !pill) return
+
+    const itemRect = item.getBoundingClientRect()
+    const listRect = list.getBoundingClientRect()
+    const padX = 14
+    const padY = 6
+
+    gsap.to(pill, {
+      x: itemRect.left - listRect.left - padX,
+      y: itemRect.top - listRect.top - padY,
+      width: itemRect.width + padX * 2,
+      height: itemRect.height + padY * 2,
+      opacity: 1,
+      duration: 0.45,
+      ease: 'power3.out',
+    })
+  }
+
+  const hidePill = () => {
+    gsap.to(pillRef.current, { opacity: 0, duration: 0.3, ease: 'power2.out' })
+  }
+
   return (
     <>
       <header
@@ -61,29 +93,45 @@ export default function Nav() {
           hidden ? '-translate-y-full' : 'translate-y-0'
         }`}
       >
-        <nav className="flex items-center justify-between px-5 py-5 text-white sm:px-8 sm:py-6">
+        <nav className="flex items-center justify-between px-5 py-5 text-white sm:px-8 sm:py-8">
           <Link to="/" className="font-display text-sm font-medium tracking-[0.2em] sm:text-base" onClick={() => setOpen(false)}>
             SIMRAN
           </Link>
 
-          <ul className="hidden items-center gap-8 text-xs uppercase tracking-[0.15em] sm:flex">
-            {LINKS.map((l) =>
-              l.hash.startsWith('/') ? (
-                <li key={l.label}>
-                  <Link to={l.hash} className="group relative inline-block py-1">
-                    <span>{l.label}</span>
-                    <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-current transition-all duration-300 group-hover:w-full" />
+          <ul
+            ref={listRef}
+            onMouseLeave={hidePill}
+            className="relative hidden items-center gap-8 text-xs uppercase tracking-[0.15em] sm:flex"
+          >
+            <span
+              ref={pillRef}
+              aria-hidden="true"
+              className="pointer-events-none absolute left-0 top-0 rounded-full border border-current opacity-0"
+            />
+            {LINKS.map((l, i) => (
+              <li
+                key={l.label}
+                ref={(el) => {
+                  itemRefs.current[i] = el
+                }}
+                className="group relative"
+                onMouseEnter={() => movePillTo(i)}
+              >
+                <span className="pointer-events-none absolute left-1/2 -top-7 -translate-x-1/2 translate-y-1 scale-90 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
+                  <l.Icon className="h-6 w-6" style={{ transform: `rotate(${l.tilt}deg)` }} />
+                </span>
+
+                {l.hash.startsWith('/') ? (
+                  <Link to={l.hash} className="relative z-10 inline-block px-3.5 py-1.5">
+                    {l.label}
                   </Link>
-                </li>
-              ) : (
-                <li key={l.label}>
-                  <a href={l.hash} onClick={goTo(l.hash)} className="group relative inline-block py-1">
-                    <span>{l.label}</span>
-                    <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-current transition-all duration-300 group-hover:w-full" />
+                ) : (
+                  <a href={l.hash} onClick={goTo(l.hash)} className="relative z-10 inline-block px-3.5 py-1.5">
+                    {l.label}
                   </a>
-                </li>
-              ),
-            )}
+                )}
+              </li>
+            ))}
           </ul>
 
           <button
@@ -107,13 +155,14 @@ export default function Nav() {
           {LINKS.map((l, i) => (
             <li
               key={l.label}
-              className="transition-all duration-500"
+              className="flex items-center gap-4 transition-all duration-500"
               style={{
                 transitionDelay: open ? `${i * 60}ms` : '0ms',
                 opacity: open ? 1 : 0,
                 transform: open ? 'translateY(0)' : 'translateY(12px)',
               }}
             >
+              <l.Icon className="h-6 w-6 text-cream/40" />
               {l.hash.startsWith('/') ? (
                 <Link to={l.hash} onClick={() => setOpen(false)} className="font-display text-5xl italic">
                   {l.label}
