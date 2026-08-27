@@ -1,21 +1,341 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f4efe6" />
-    <meta name="description" content="Simran Bansal — product, AI, finance, curious human. An interactive personal archive." />
-    <title>Simran Bansal — Product / AI / Finance / Curious Human</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simran Bansal — Finance × Revenue × Systems</title>
+<meta name="description" content="Simran Bansal — Revenue Operations & FinanceOps. I follow the money, then I fix the process.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#top" class="nav-brand">
+        <span class="nav-mark">SB</span>
+        <span class="nav-name">SIMRAN BANSAL</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#expertise" class="nav-link">Expertise</a>
+        <a href="#work" class="nav-link">Work</a>
+        <a href="#credix" class="nav-link">The Credix</a>
+        <a href="#connect" class="nav-link">Connect</a>
+      </nav>
+      <a href="#connect" class="nav-cta">Let&rsquo;s Connect <span aria-hidden="true">→</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero" id="top">
+      <div class="hero-photo" aria-hidden="true">
+        <img src="photo.jpg" alt="">
+        <div class="hero-photo-overlay"></div>
+      </div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow reveal"><span class="eyebrow-mark"></span>FINANCE × REVENUE × SYSTEMS</p>
+          <h1 class="hero-headline reveal">I follow the money.<br>Then I fix the process.</h1>
+          <p class="hero-sub reveal">I work at the intersection of finance and revenue operations — building stronger reconciliations, cleaner workflows, and scalable systems that help businesses understand, protect, and collect their revenue.</p>
+          <p class="hero-tags reveal">Revenue Operations <span class="dot">•</span> Finance Operations <span class="dot">•</span> Reconciliation <span class="dot">•</span> O2C</p>
+          <div class="hero-ctas reveal">
+            <a href="#work" class="btn btn-primary">Explore My Work <span aria-hidden="true">↓</span></a>
+            <a href="#connect" class="btn btn-ghost">Connect With Me <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="hero-flow reveal" aria-hidden="true">
+          <div class="flow-line"><span class="flow-pulse"></span></div>
+          <div class="flow-nodes">
+            <div class="flow-node"><span class="flow-dot"></span><span class="flow-label">Invoice</span></div>
+            <div class="flow-node"><span class="flow-dot"></span><span class="flow-label">Payment</span></div>
+            <div class="flow-node"><span class="flow-dot"></span><span class="flow-label">Reconcile</span></div>
+            <div class="flow-node"><span class="flow-dot"></span><span class="flow-label">Collect</span></div>
+            <div class="flow-node"><span class="flow-dot"></span><span class="flow-label">Report</span></div>
+          </div>
+        </div>
+      </div>
+      <a href="#about" class="scroll-indicator" aria-label="Scroll to About section"><span></span></a>
+    </section>
+
+    <section class="about" id="about">
+      <div class="section-inner about-grid">
+        <div class="about-main">
+          <p class="eyebrow reveal">01 / ABOUT</p>
+          <h2 class="section-headline reveal">Finance taught me the numbers.<br>Operations taught me what breaks behind them.</h2>
+          <div class="about-copy">
+            <p class="reveal">I started my career in traditional finance — reconciliations, reporting, compliance, month-end closes, and a lot of spreadsheets.</p>
+            <p class="reveal">Over time, I became more interested in what was happening behind the numbers: why reconciliations broke, why collections became reactive, where revenue quietly leaked, and why processes that worked at a smaller scale started to strain as businesses grew.</p>
+            <p class="reveal">That curiosity pulled me closer to Revenue Operations — AR and O2C, process improvement, automation, and building financial systems that hold up at scale.</p>
+          </div>
+        </div>
+        <div class="about-path reveal">
+          <ol class="path-list">
+            <li><span class="path-index">01</span><span class="path-label">Finance</span></li>
+            <li><span class="path-index">02</span><span class="path-label">Reconciliation</span></li>
+            <li><span class="path-index">03</span><span class="path-label">AR / O2C</span></li>
+            <li><span class="path-index">04</span><span class="path-label">Revenue Operations</span></li>
+            <li><span class="path-index">05</span><span class="path-label">Systems &amp; Process Building</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience" id="experience">
+      <div class="section-inner">
+        <p class="eyebrow reveal">02 / EXPERIENCE</p>
+        <h2 class="section-headline reveal">Learning finance → Managing finance → Improving processes → Building systems.</h2>
+
+        <div class="timeline" id="timeline">
+          <div class="timeline-track"><div class="timeline-progress" id="timelineProgress"></div></div>
+
+          <ol class="timeline-list">
+            <li class="timeline-item reveal">
+              <div class="timeline-dot"></div>
+              <div class="timeline-body">
+                <span class="timeline-years">2025 — Present</span>
+                <h3 class="timeline-role">Reconciliation &amp; Revenue Accounting Lead</h3>
+                <p class="timeline-company">BiteSpeed</p>
+                <p class="timeline-desc">I work at the intersection of finance and revenue operations, building stronger reconciliation, payment, collections, and reporting processes for a fast-growing SaaS business.</p>
+                <div class="timeline-tags"><span>SaaS</span><span>Revenue</span><span>Payments</span><span>Reconciliation</span></div>
+              </div>
+            </li>
+
+            <li class="timeline-item reveal">
+              <div class="timeline-dot"></div>
+              <div class="timeline-body">
+                <span class="timeline-years">2025 — 2025</span>
+                <h3 class="timeline-role">Head of Operations</h3>
+                <p class="timeline-company">WeLiveProperty</p>
+                <p class="timeline-desc">I managed the day-to-day financial and business operations of a UK real estate company, bringing more structure to its processes, reporting, and cross-functional workflows.</p>
+                <div class="timeline-tags"><span>Operations</span><span>Real Estate</span><span>Process Design</span></div>
+              </div>
+            </li>
+
+            <li class="timeline-item reveal">
+              <div class="timeline-dot"></div>
+              <div class="timeline-body">
+                <span class="timeline-years">2022 — 2025</span>
+                <h3 class="timeline-role">Reconciliation &amp; AR Lead</h3>
+                <p class="timeline-company">Toronto Great Lakes Express</p>
+                <p class="timeline-desc">I managed reconciliation and AR operations across a CAD 60M portfolio, while improving controls, automating manual processes, and helping lead the transition from JDE to NetSuite.</p>
+                <div class="timeline-metrics">
+                  <div><span class="metric-value" data-count-to="60" data-prefix="CAD " data-suffix="M">0</span><span class="metric-label">AR Portfolio</span></div>
+                  <div><span class="metric-value" data-count-to="75" data-suffix="%">0</span><span class="metric-label">Efficiency Improvement</span></div>
+                  <div><span class="metric-value" data-count-to="4" data-suffix="">0</span><span class="metric-label">Entities</span></div>
+                  <div><span class="metric-value" data-count-to="50" data-suffix="+">0</span><span class="metric-label">ERP Users Trained</span></div>
+                </div>
+                <div class="timeline-tags"><span>Reconciliation</span><span>AR</span><span>ERP Migration</span><span>Controls</span></div>
+              </div>
+            </li>
+
+            <li class="timeline-item reveal">
+              <div class="timeline-dot"></div>
+              <div class="timeline-body">
+                <span class="timeline-years">2021 — 2022</span>
+                <h3 class="timeline-role">Accounting Assistant</h3>
+                <p class="timeline-company">York University</p>
+                <p class="timeline-desc">I built my core accounting foundation through reconciliations, month-end reporting, journal entries, and audit preparation.</p>
+                <div class="timeline-tags"><span>Reconciliations</span><span>Reporting</span><span>Audit Prep</span></div>
+              </div>
+            </li>
+
+            <li class="timeline-item reveal">
+              <div class="timeline-dot"></div>
+              <div class="timeline-body">
+                <span class="timeline-years">2020 — 2021</span>
+                <h3 class="timeline-role">Financial Services Intern</h3>
+                <p class="timeline-company">ADG Accounting</p>
+                <p class="timeline-desc">Where my finance journey began — gaining hands-on exposure to client accounts, financial reporting, analysis, and financial modelling.</p>
+                <div class="timeline-tags"><span>Client Accounts</span><span>Reporting</span><span>Financial Modelling</span></div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="expertise" id="expertise">
+      <div class="section-inner">
+        <p class="eyebrow reveal">03 / EXPERTISE</p>
+        <h2 class="section-headline reveal">What I actually work on.</h2>
+
+        <div class="expertise-grid reveal">
+          <span class="expertise-connector expertise-connector--h" aria-hidden="true"></span>
+          <span class="expertise-connector expertise-connector--v" aria-hidden="true"></span>
+          <span class="expertise-node" aria-hidden="true"></span>
+
+          <div class="expertise-card">
+            <h3>Revenue</h3>
+            <ul>
+              <li><span class="skill-name">Accounts Receivable</span><span class="skill-detail">Managing collections cycles end to end.</span></li>
+              <li><span class="skill-name">Collections Strategy</span><span class="skill-detail">Proactive, segmented outreach over reactive chasing.</span></li>
+              <li><span class="skill-name">Revenue Accounting</span><span class="skill-detail">Recognizing revenue accurately across cycles.</span></li>
+              <li><span class="skill-name">DSO Optimization</span><span class="skill-detail">Shortening the gap between invoice and cash.</span></li>
+              <li><span class="skill-name">Cash Flow Visibility</span><span class="skill-detail">Real-time clarity on where cash actually stands.</span></li>
+            </ul>
+          </div>
+          <div class="expertise-card">
+            <h3>Reconciliation</h3>
+            <ul>
+              <li><span class="skill-name">Bank Reconciliation</span><span class="skill-detail">Matching cash movement to the books, daily.</span></li>
+              <li><span class="skill-name">Payment Reconciliation</span><span class="skill-detail">Tying gateway settlements back to revenue.</span></li>
+              <li><span class="skill-name">Subledger-to-GL</span><span class="skill-detail">Keeping detail and ledger in permanent agreement.</span></li>
+              <li><span class="skill-name">Intercompany</span><span class="skill-detail">Clean eliminations across related entities.</span></li>
+              <li><span class="skill-name">Settlement Cycles</span><span class="skill-detail">Tracking timing gaps across payment rails.</span></li>
+            </ul>
+          </div>
+          <div class="expertise-card">
+            <h3>Systems</h3>
+            <ul>
+              <li><span class="skill-name">NetSuite</span><span class="skill-detail">Configuration, reporting, and daily operation.</span></li>
+              <li><span class="skill-name">JDE</span><span class="skill-detail">Legacy ERP operations and data extraction.</span></li>
+              <li><span class="skill-name">ERP Migration</span><span class="skill-detail">GL mapping, validation, and cutover.</span></li>
+              <li><span class="skill-name">Process Automation</span><span class="skill-detail">Removing manual steps that don&rsquo;t need to exist.</span></li>
+              <li><span class="skill-name">Financial Controls</span><span class="skill-detail">Guardrails that scale with the business.</span></li>
+            </ul>
+          </div>
+          <div class="expertise-card">
+            <h3>Operations</h3>
+            <ul>
+              <li><span class="skill-name">Revenue Operations</span><span class="skill-detail">Connecting finance, sales, and product data.</span></li>
+              <li><span class="skill-name">O2C</span><span class="skill-detail">Order-to-cash, treated as one continuous system.</span></li>
+              <li><span class="skill-name">Process Design</span><span class="skill-detail">Workflows built for how teams actually work.</span></li>
+              <li><span class="skill-name">Governance</span><span class="skill-detail">Sign-off, escalation, and audit-ready trails.</span></li>
+              <li><span class="skill-name">Cross-functional Operations</span><span class="skill-detail">Getting finance and ops speaking one language.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="impact" id="impact">
+      <div class="section-inner">
+        <h2 class="section-headline reveal">Numbers tell part of the story.<br>Systems explain the rest.</h2>
+        <div class="impact-grid">
+          <div class="impact-stat impact-stat--lg reveal">
+            <span class="impact-value" data-count-to="60" data-prefix="CAD " data-suffix="M+">0</span>
+            <span class="impact-label">AR portfolio managed</span>
+          </div>
+          <div class="impact-stat reveal">
+            <span class="impact-value" data-count-to="75" data-suffix="%">0</span>
+            <span class="impact-label">Efficiency improvement through automation and process redesign</span>
+          </div>
+          <div class="impact-stat reveal">
+            <span class="impact-value" data-count-to="4" data-suffix="+ Years">0</span>
+            <span class="impact-label">International finance experience</span>
+          </div>
+          <div class="impact-stat reveal">
+            <span class="impact-value" data-count-to="50" data-suffix="+">0</span>
+            <span class="impact-label">Users trained during ERP transformation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work" id="work">
+      <div class="section-inner">
+        <p class="eyebrow reveal">04 / BUILT &amp; IMPROVED</p>
+        <h2 class="section-headline reveal">Systems I&rsquo;ve built and improved.</h2>
+
+        <article class="case reveal">
+          <h3 class="case-title">Reconciliation Governance System</h3>
+          <div class="case-body case-body--triple">
+            <div><span class="case-label">Problem</span><p>Fragmented reconciliation processes across multiple entities.</p></div>
+            <div><span class="case-label">Built</span><p>Standardized templates, escalation workflows, governance controls, and sign-off processes.</p></div>
+            <div><span class="case-label">Impact</span><p>Reduced unresolved reconciliation items and improved audit readiness.</p></div>
+          </div>
+        </article>
+
+        <article class="case reveal">
+          <h3 class="case-title">JDE → NetSuite ERP Transformation</h3>
+          <div class="case-flow">
+            <span>JDE</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>Data &amp; GL Mapping</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>Validation</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>NetSuite</span>
+          </div>
+          <ul class="case-highlights">
+            <li>GL mapping</li><li>Reconciliation configuration</li><li>Data validation</li><li>Cross-functional implementation</li><li>User training</li>
+          </ul>
+        </article>
+
+        <article class="case reveal">
+          <h3 class="case-title">Revenue &amp; Payment Operations</h3>
+          <div class="case-flow case-flow--long">
+            <span>Customer</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>Invoice</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>Payment</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>Gateway</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>Reconciliation</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>Cash Application</span><span class="flow-arrow" aria-hidden="true">→</span>
+            <span>Revenue</span>
+          </div>
+          <ul class="case-highlights">
+            <li>Payment gateways</li><li>Razorpay</li><li>UPI</li><li>Settlements</li><li>AR</li><li>Reconciliation</li><li>Deferred revenue</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="credix" id="credix">
+      <span class="credix-wordmark" aria-hidden="true">CREDIX</span>
+      <div class="section-inner credix-inner">
+        <p class="eyebrow reveal">WHAT I&rsquo;M BUILDING</p>
+        <h2 class="section-headline reveal">The problems I kept seeing eventually became something I wanted to solve.</h2>
+        <p class="credix-copy reveal">The Credix focuses on exploring better revenue infrastructure for growing businesses — reducing revenue leakages, strengthening collections, improving governance, and helping businesses build scalable revenue operations.</p>
+        <a href="https://thecredix.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary reveal">Explore The Credix <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="philosophy" id="philosophy">
+      <div class="section-inner">
+        <blockquote class="philosophy-quote reveal">&ldquo;Most revenue problems don&rsquo;t start when an invoice becomes overdue. They start much earlier — in the systems, processes, and decisions behind it.&rdquo;</blockquote>
+      </div>
+    </section>
+
+    <section class="connect" id="connect">
+      <div class="section-inner">
+        <p class="eyebrow reveal">LET&rsquo;S TALK</p>
+        <h2 class="section-headline reveal">Building something where revenue, finance, and operations are getting complicated?</h2>
+        <p class="connect-copy reveal">I&rsquo;m always interested in conversations around revenue operations, finance systems, reconciliation, SaaS, and the messy operational problems that appear when businesses scale.</p>
+        <div class="connect-ctas reveal">
+          <a href="https://www.linkedin.com/in/sbansal02/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
+          <a href="mailto:simranbansal1301@gmail.com" class="btn btn-ghost">Email Me <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="connect-note reveal">Based in India. Thinking globally.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="section-inner footer-inner">
+      <div class="footer-brand">
+        <p class="footer-name">SIMRAN BANSAL</p>
+        <p class="footer-tagline">Finance × Revenue × Systems</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/sbansal02/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="mailto:simranbansal1301@gmail.com">Email</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="https://thecredix.com" target="_blank" rel="noopener noreferrer">The Credix</a>
+      </div>
+      <p class="footer-note">Built with curiosity, reconciled to the last pixel.</p>
+      <p class="footer-copyright">© <span id="year"></span> Simran Bansal</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
 </html>
