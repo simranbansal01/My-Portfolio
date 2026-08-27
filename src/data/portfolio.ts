@@ -26,6 +26,36 @@ export const portfolioData = {
       rotate: -2
     }
   ],
+  projects: [
+    {
+      id: "01",
+      title: "Reconciliation Governance System",
+      category: "Financial Systems",
+      summary: "Fragmented reconciliation processes across multiple entities, made auditable.",
+      problem: "Fragmented reconciliation processes across multiple entities.",
+      built: "Standardized templates, escalation workflows, governance controls, and sign-off processes.",
+      impact: "Reduced unresolved reconciliation items and improved audit readiness.",
+      tags: ["Reconciliation", "Governance", "Audit-Ready", "Multi-Entity"]
+    },
+    {
+      id: "02",
+      title: "JDE → NetSuite ERP Transformation",
+      category: "ERP Migration",
+      summary: "End-to-end ERP migration across a CAD $60M portfolio, delivered under budget.",
+      flow: ["JDE", "Data & GL Mapping", "Validation", "NetSuite"],
+      highlights: ["GL mapping", "Reconciliation configuration", "Data validation", "Cross-functional implementation", "User training"],
+      tags: ["NetSuite", "JDE ERP", "GL Mapping", "50+ Users Trained"]
+    },
+    {
+      id: "03",
+      title: "Revenue & Payment Operations",
+      category: "Revenue Operations",
+      summary: "One continuous system from customer invoice to recognized revenue.",
+      flow: ["Customer", "Invoice", "Payment", "Gateway", "Reconciliation", "Cash Application", "Revenue"],
+      highlights: ["Payment gateways", "Razorpay", "UPI", "Settlements", "AR", "Reconciliation", "Deferred revenue"],
+      tags: ["Razorpay", "UPI", "AR", "Deferred Revenue"]
+    }
+  ],
   ventures: [
     {
       id: "01",

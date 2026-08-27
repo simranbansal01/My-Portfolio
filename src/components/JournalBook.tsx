@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { portfolioData } from "../data/portfolio";
 
 const rotatingWords = ["reliable", "empowering", "clarifying", "defensible", "tactile"];
@@ -37,6 +38,10 @@ export const JournalBook: React.FC = () => {
           Experience
           <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#cd4c38] transition-all group-hover:w-full" />
         </a>
+        <Link to="/projects" className="hover:text-[#cd4c38] transition-colors relative group">
+          Projects
+          <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#cd4c38] transition-all group-hover:w-full" />
+        </Link>
         <a href="#connect" className="hover:text-[#cd4c38] transition-colors relative group">
           Connect
           <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#cd4c38] transition-all group-hover:w-full" />
