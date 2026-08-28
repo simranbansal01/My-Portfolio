@@ -40,6 +40,21 @@ export function useSmoothScroll(enabled: boolean) {
   }, [enabled]);
 }
 
+/**
+ * Jumps to an absolute position, through Lenis when it is running.
+ *
+ * A native `window.scrollTo` issued while Lenis is driving gets overridden on
+ * its next frame, because Lenis restores its own internal target. Route
+ * restoration has to go through it or it does not stick.
+ */
+export function scrollToY(y: number, immediate = true) {
+  if (lenis) {
+    lenis.scrollTo(y, { immediate });
+    return;
+  }
+  window.scrollTo(0, y);
+}
+
 /** Scrolls to an element id through Lenis when it is running, natively otherwise. */
 export function scrollToId(id: string) {
   const el = document.getElementById(id);

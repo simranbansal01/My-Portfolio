@@ -73,6 +73,8 @@ export type Belief = (typeof beliefs)[number];
 
 export type Story = {
   no: string;
+  /** The last segment of the story's own URL: /work/<slug>. */
+  slug: string;
   title: string;
   category: string;
   teaser: string;
@@ -102,6 +104,7 @@ export type Story = {
 export const stories: readonly Story[] = [
   {
     no: "01",
+    slug: "corner-shelf",
     title: "Corner Shelf",
     category: "AI × Learning",
     teaser:
@@ -127,6 +130,7 @@ export const stories: readonly Story[] = [
   },
   {
     no: "02",
+    slug: "fastlane",
     title: "FastLane",
     category: "B2B × Workflow · Vendor management",
     teaser:
@@ -147,6 +151,7 @@ export const stories: readonly Story[] = [
   },
   {
     no: "03",
+    slug: "paarth",
     title: "Paarth",
     category: "Healthcare / Elder care × Marketplace",
     teaser:
@@ -171,6 +176,7 @@ export const stories: readonly Story[] = [
   },
   {
     no: "04",
+    slug: "golden-hour",
     // The content master offers "WHAT HAPPENS BEFORE HELP ARRIVES?" as the
     // alternate feature headline for this story.
     title: "The first few minutes belong to nobody.",
@@ -197,6 +203,11 @@ export const stories: readonly Story[] = [
     ],
   },
 ];
+
+/** Looks a story up by the slug in its URL. */
+export function storyBySlug(slug: string): Story | undefined {
+  return stories.find((s) => s.slug === slug);
+}
 
 /** The career ledger. Rows tick off in red as the scroll passes through them. */
 export const ledger = [

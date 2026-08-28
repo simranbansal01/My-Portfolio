@@ -20,7 +20,6 @@ import { LookingFor } from "../desk/LookingFor";
 import { Polaroid } from "../desk/Polaroid";
 import { ProofMarquee } from "../desk/ProofMarquee";
 import { WorkGalleryMobile } from "../desk/WorkGallery";
-import { CaseFiles } from "../desk/CaseFiles";
 
 /**
  * The phone edition.
@@ -45,7 +44,6 @@ export function MobileSite({ reduced }: { reduced: boolean }) {
           <MobileHero reduced={reduced} />
           <MobileBeliefs />
           <WorkGalleryMobile />
-          <CaseFiles />
           <MobileWork />
           <Polaroid reduced={reduced} />
           <Ledger reduced={reduced} />

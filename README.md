@@ -21,7 +21,7 @@ Top to bottom, the page is one argument:
 | **Notebook** | A red moulded case holding two paper pages — the hero on grid paper, the editorial intro in columns — separated by a ribbon bookmark. |
 | **Notes** | Three torn papers that slide out over the case's bottom edge and spread across the desk on scrub. |
 | **Gallery** | The four concepts as framed mockups, scattered across the desk and drifting at different rates so the wall separates into layers. |
-| **Case files** | The four stories at reading size, three of them carrying an interaction you can run. In normal flow, not on the mat — a control on a plane that tilts and travels under the cursor is a thing to fight rather than use. |
+| **Gallery tiles** | Every tile is a door. Clicking one opens that project's own page at `/work/<slug>`, where the story, its interaction and its links live. |
 | **Mat** | A numbered cutting mat in perspective, now carrying the work that is still open. It tilts in, lies flat through the middle of the scroll, and tilts away as it leaves. |
 | **Polaroid** | Hangs off the mat's bottom edge on a dashed red thread. Draggable; springs back. |
 | **Ledger** | The career, reconciled one line at a time. Rows tick off in red as the scroll passes through them. |
@@ -43,13 +43,35 @@ annotations and cursor parallax are not rendered at all, and nothing is pinned.
 | Scroll | Lenis on the GSAP ticker | native scrolling |
 | Nav | three words, hover draws a pen ring and pops a doodle | a row of tap targets |
 | Notes | scrubbed spread across the desk | dealt down the page, each on its own angle |
-| Work | scattered mockups, then the case files, then the pinned mat | mockups stacked, the same case files, the mat narrowed to a strip |
+| Work | scattered tiles linking out, then the pinned mat | tiles stacked, the mat narrowed to a strip |
 | Margins | rails, chalk objects, red annotations | none |
+
+## Pages
+
+Five URLs — the desk at `/`, and one per project at `/work/<slug>`
+(`corner-shelf`, `fastlane`, `paarth`, `golden-hour`). `src/lib/router.ts` is a
+~100-line history-API router; with five static routes, no nested layouts and no
+loaders, a routing library would be weight without work. What it does do:
+
+- `Link` stays a real `<a href>`, so middle-click, cmd-click and "copy link
+  address" behave; only plain left clicks are intercepted.
+- Scroll position is saved per path and restored on Back. This has to go
+  through Lenis (`scrollToY`) — a native `scrollTo` is overridden on Lenis's
+  next frame — and it retries for a beat, because the desk's pinned sections
+  only reach full height once ScrollTrigger has built its spacers.
+- `history.scrollRestoration` is set to `manual`, since the browser's own
+  restoration fights the above.
+- A parent that does not own the document title passes `null` rather than the
+  current value: parent effects run after child effects and would otherwise
+  stamp a stale title over the one the page just set.
+
+Deep links work in production because `netlify.toml` already serves
+`index.html` for any path.
 
 ## The three interactions
 
-`src/desk/demos/` — each one runs the concept's own argument rather than
-describing it. All three are bounded the same way: they demonstrate what the
+`src/desk/demos/`, shown on the project pages — each one runs the concept's
+own argument rather than describing it. All three are bounded the same way: they demonstrate what the
 concept *proposes*, and assert nothing about how it performed.
 
 | | |

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { MOCKUP_BY_NO } from "../art/mockupIndex";
-import { stories } from "../data/portfolio";
+import { stories, type Story } from "../data/portfolio";
+import { Link } from "../components/Link";
 import { mix, range, useScrub } from "../lib/scrub";
 
 /**
@@ -11,8 +12,9 @@ import { mix, range, useScrub } from "../lib/scrub";
  * sliding as one plane. A torn note sits in the middle of them, the way a
  * pinned scrap sits in the middle of a spread.
  *
- * This is the look of the work. The reading of it — noticed, questioned,
- * built — is the mat directly below, so nothing here has to carry copy.
+ * Every tile is a door: it opens that project's own page, where the story,
+ * its interaction and its links live. The desk shows the objects; you pick
+ * one up to read it.
  */
 
 /** Where each mockup lands, and how near the viewer it reads. */
@@ -39,15 +41,13 @@ export function WorkGallery({ reduced }: { reduced: boolean }) {
 
   return (
     <section
+      id="work"
       ref={section}
-      aria-label="The four concepts"
+      aria-label="Selected product stories"
       className="relative mx-auto hidden h-[124vh] max-w-[1280px] px-4 lg:block lg:px-14"
     >
       {stories.map((story, i) => {
         const seat = SEATS[i];
-        const Mock = MOCKUP_BY_NO[story.no];
-        if (!Mock) return null;
-
         return (
           <figure
             key={story.no}
@@ -62,12 +62,7 @@ export function WorkGallery({ reduced }: { reduced: boolean }) {
                 : `translate3d(0, ${-travel * seat.depth * 260}px, 0) rotate(${seat.rotate}deg)`,
             }}
           >
-            <Mock />
-            <figcaption className="mono mt-3 flex items-baseline gap-2 text-paper/55">
-              <span className="text-pen">{story.no}</span>
-              <span className="text-paper/80">{story.title}</span>
-            </figcaption>
-            <p className="mono mt-1 text-paper/35">{story.category}</p>
+            <Tile story={story} />
           </figure>
         );
       })}
@@ -91,31 +86,83 @@ export function WorkGallery({ reduced }: { reduced: boolean }) {
 }
 
 /**
- * The phone gets the same four mockups, stacked and slightly off-square, with
+ * One tile. The whole thing is the link — the mockup lifts a little on hover
+ * so it reads as something you can pick up rather than a picture of one.
+ */
+function Tile({ story }: { story: Story }) {
+  const Mock = MOCKUP_BY_NO[story.no];
+  if (!Mock) return null;
+
+  return (
+    <Link
+      to={`/work/${story.slug}`}
+      className="group block focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-pen"
+      aria-label={`${story.title} — read the story`}
+    >
+      <span className="block transition-transform duration-[400ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-1.5 group-focus-visible:-translate-y-1.5">
+        <Mock />
+      </span>
+      <span className="mono mt-3 flex items-baseline gap-2">
+        <span className="text-pen">{story.no}</span>
+        <span className="text-paper/80 transition-colors duration-300 group-hover:text-pen">
+          {story.title}
+        </span>
+      </span>
+      <span className="mono mt-1 flex items-baseline justify-between gap-3">
+        <span className="text-paper/35">{story.category}</span>
+        <span className="shrink-0 text-pen opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+          Read →
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+/**
+ * The phone gets the same four tiles, stacked and slightly off-square, with
  * no drift — there is no room to scatter and nothing to parallax against.
+ * The "Read →" mark shows unconditionally here, since there is no hover.
  */
 export function WorkGalleryMobile() {
   return (
-    <section aria-label="The four concepts" className="px-6 py-4">
+    <section
+      id="work"
+      aria-label="Selected product stories"
+      className="px-6 py-4"
+    >
       <div className="mx-auto flex max-w-[400px] flex-col gap-9">
-        {stories.map((story, i) => {
-          const Mock = MOCKUP_BY_NO[story.no];
-          if (!Mock) return null;
-          return (
-            <figure
-              key={story.no}
-              style={{ transform: `rotate(${[-1.6, 1.4, -1, 1.2][i]}deg)` }}
+        {stories.map((story, i) => (
+          <figure
+            key={story.no}
+            style={{ transform: `rotate(${[-1.6, 1.4, -1, 1.2][i]}deg)` }}
+          >
+            <Link
+              to={`/work/${story.slug}`}
+              className="block focus-visible:outline-2 focus-visible:outline-offset-6 focus-visible:outline-pen"
             >
-              <Mock />
-              <figcaption className="mono mt-2.5 flex items-baseline gap-2">
-                <span className="text-pen">{story.no}</span>
-                <span className="text-paper/80">{story.title}</span>
-              </figcaption>
-              <p className="mono mt-1 text-paper/35">{story.category}</p>
-            </figure>
-          );
-        })}
+              <MobileTileBody story={story} />
+            </Link>
+          </figure>
+        ))}
       </div>
     </section>
+  );
+}
+
+function MobileTileBody({ story }: { story: Story }) {
+  const Mock = MOCKUP_BY_NO[story.no];
+  if (!Mock) return null;
+  return (
+    <>
+      <Mock />
+      <span className="mono mt-2.5 flex items-baseline gap-2">
+        <span className="text-pen">{story.no}</span>
+        <span className="text-paper/80">{story.title}</span>
+      </span>
+      <span className="mono mt-1 flex items-baseline justify-between gap-3">
+        <span className="text-paper/35">{story.category}</span>
+        <span className="shrink-0 text-pen">Read →</span>
+      </span>
+    </>
   );
 }
