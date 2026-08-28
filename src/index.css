@@ -1,43 +1,119 @@
 @import "tailwindcss";
 
+@theme {
+  --color-paper: #f2e9d8;
+  --color-paper-deep: #e6d8bf;
+  --color-paper-dark: #17150f;
+  --color-ink: #17150f;
+  --color-ink-soft: #57503f;
+  --color-red: #e2523b;
+  --color-mustard: #e9b949;
+  --color-teal: #2f6f6b;
+  --color-violet: #7c6ce0;
+  --color-olive: #6e8b3d;
+
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-mono: "Space Mono", ui-monospace, "SF Mono", monospace;
+  --font-hand: "Caveat", "Segoe Script", cursive;
+}
+
 @layer base {
   html {
-    scroll-behavior: smooth;
-    background-color: #121212;
-    color: #fdf4e9;
-    cursor: default;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-mono);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-red);
+    color: var(--color-paper);
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-paper-deep);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink);
+    border-radius: 999px;
   }
 }
 
-.font-caveat {
-  font-family: 'Caveat', cursive, sans-serif;
+@layer utilities {
+  /* Printed-paper tooth, sits over the whole page. */
+  .grain::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: radial-gradient(rgba(23, 21, 15, 0.16) 1px, transparent 1px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+  }
+
+  .rule {
+    border-color: rgba(23, 21, 15, 0.16);
+  }
+
+  .card-edge {
+    box-shadow: 6px 6px 0 rgba(23, 21, 15, 0.9);
+  }
+
+  .card-edge-soft {
+    box-shadow: 4px 4px 0 rgba(23, 21, 15, 0.18);
+  }
+
+  .sticker-shadow {
+    filter: drop-shadow(6px 8px 10px rgba(23, 21, 15, 0.22));
+  }
+
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .hand {
+    font-family: var(--font-hand);
+  }
+
+  /* Scroll-snap belt used by the mobile belief cards. */
+  .snap-belt {
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .snap-belt::-webkit-scrollbar {
+    display: none;
+  }
+  .snap-item {
+    scroll-snap-align: center;
+  }
 }
 
-.font-playfair {
-  font-family: 'Playfair Display', Georgia, serif;
-}
-
-.font-mono {
-  font-family: 'Space Mono', monospace;
-}
-
-/* Tactile Paper Texture Overlay */
-.paper-grain {
-  background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 0);
-  background-size: 8px 8px;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #121212;
-}
-::-webkit-scrollbar-thumb {
-  background: #2a2a2a;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #cd4c38;
+/* Nothing loops, drifts or slides when the visitor asked it not to. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
