@@ -1,112 +1,283 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
+/*
+ * The board: a near-black desk, a red-bezel notebook resting on it, paper
+ * pages inside, and red pen everywhere a human touched it.
+ *
+ * The rule from the content master is literal: black + white first, colour
+ * when you look closer. Red is reserved for annotation, ticks, hover and the
+ * verified numbers. Nothing else is allowed to be coloured.
+ */
 @theme {
-  --color-paper: #f2e9d8;
-  --color-paper-deep: #e6d8bf;
-  --color-paper-dark: #17150f;
-  --color-ink: #17150f;
-  --color-ink-soft: #57503f;
-  --color-red: #e2523b;
-  --color-mustard: #e9b949;
-  --color-teal: #2f6f6b;
-  --color-violet: #7c6ce0;
-  --color-olive: #6e8b3d;
+  --color-board: #17150f;
+  --color-paper: #e8e6df;
+  --color-kraft: #cfc3ad;
+  --color-ink: #14130e;
+  --color-ink-soft: #4a473d;
+  --color-rule: #a9a396;
+  --color-pen: #c41e3a;
+  --color-pen-soft: #d8455d;
+  --color-chalk: #e8e6df;
 
-  --font-display: "Playfair Display", Georgia, serif;
+  --font-display: "Bodoni Moda", Georgia, serif;
+  --font-body: "Newsreader", Georgia, serif;
   --font-mono: "Space Mono", ui-monospace, "SF Mono", monospace;
   --font-hand: "Caveat", "Segoe Script", cursive;
 }
 
 @layer base {
   html {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
+    background-color: var(--color-board);
+    color: var(--color-paper);
     -webkit-font-smoothing: antialiased;
+    scroll-behavior: auto;
   }
 
   body {
     margin: 0;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.55;
     overflow-x: hidden;
   }
 
   ::selection {
-    background: var(--color-red);
+    background: var(--color-pen);
     color: var(--color-paper);
   }
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 700;
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 9px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-paper-deep);
+    background: var(--color-board);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-ink);
+    background: var(--color-ink-soft);
     border-radius: 999px;
   }
 }
 
 @layer utilities {
-  /* Printed-paper tooth, sits over the whole page. */
+  /* ── labels ─────────────────────────────────────────────────────── */
+  .mono {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 10px;
+  }
+  .hand {
+    font-family: var(--font-hand);
+    line-height: 1.15;
+  }
+
+  /* ── paper surfaces ─────────────────────────────────────────────────
+     Each page is a flat colour plus a tooth. The tooth is a repeating
+     gradient rather than an image so it stays crisp at any zoom. */
+  .paper-plain {
+    background-color: var(--color-paper);
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent 0 3px,
+      rgba(20, 19, 14, 0.022) 3px 4px
+    );
+  }
+
+  /* Engineering grid, the hero page. */
+  .paper-grid {
+    background-color: var(--color-paper);
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 3px,
+        rgba(20, 19, 14, 0.02) 3px 4px
+      ),
+      linear-gradient(rgba(88, 104, 142, 0.22) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(88, 104, 142, 0.22) 1px, transparent 1px);
+    background-size:
+      100% 4px,
+      34px 34px,
+      34px 34px;
+  }
+
+  /* Notepad, blue rules with a red margin. */
+  .paper-ruled {
+    background-color: #e3ded1;
+    background-image:
+      linear-gradient(90deg, transparent 33px, rgba(196, 30, 58, 0.55) 33px 34px, transparent 34px),
+      repeating-linear-gradient(
+        180deg,
+        transparent 0 29px,
+        rgba(72, 106, 168, 0.5) 29px 30px
+      );
+  }
+
+  /* Squared exercise paper. */
+  .paper-graph {
+    background-color: #cfccc2;
+    background-image:
+      linear-gradient(rgba(20, 19, 14, 0.16) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20, 19, 14, 0.16) 1px, transparent 1px);
+    background-size: 21px 21px;
+  }
+
+  /* Brown card stock. */
+  .paper-kraft {
+    background-color: var(--color-kraft);
+    background-image: repeating-linear-gradient(
+      -14deg,
+      transparent 0 6px,
+      rgba(20, 19, 14, 0.03) 6px 7px
+    );
+  }
+
+  /* ── torn + deckled edges ───────────────────────────────────────────
+     A clip-path with an irregular top and bottom run. Not random per
+     render: fixed points, so a note looks the same on every load. */
+  .torn-top {
+    clip-path: polygon(
+      0% 6%, 4% 2%, 9% 7%, 14% 1%, 19% 6%, 25% 2%, 31% 7%, 37% 2%,
+      43% 6%, 49% 1%, 55% 6%, 61% 2%, 67% 7%, 73% 2%, 79% 6%, 85% 1%,
+      91% 6%, 96% 2%, 100% 6%, 100% 100%, 0% 100%
+    );
+  }
+  .torn-bottom {
+    clip-path: polygon(
+      0% 0%, 100% 0%, 100% 95%, 95% 99%, 89% 94%, 83% 99%, 77% 94%,
+      70% 99%, 64% 94%, 58% 99%, 51% 94%, 45% 99%, 38% 94%, 32% 99%,
+      25% 94%, 19% 99%, 12% 94%, 6% 99%, 0% 95%
+    );
+  }
+  .torn-both {
+    clip-path: polygon(
+      0% 5%, 5% 1%, 11% 6%, 17% 1%, 23% 6%, 30% 1%, 36% 6%, 42% 1%,
+      49% 6%, 55% 1%, 62% 6%, 68% 1%, 75% 6%, 81% 1%, 88% 6%, 94% 1%,
+      100% 5%, 100% 95%, 94% 99%, 88% 94%, 81% 99%, 75% 94%, 68% 99%,
+      62% 94%, 55% 99%, 49% 94%, 42% 99%, 36% 94%, 30% 99%, 23% 94%,
+      17% 99%, 11% 94%, 5% 99%, 0% 95%
+    );
+  }
+
+  /* ── the desk ───────────────────────────────────────────────────────
+     Board grain, vignette, and the fixed print tooth over everything. */
+  .board {
+    background-color: var(--color-board);
+    background-image:
+      radial-gradient(
+        120% 90% at 50% 0%,
+        rgba(232, 230, 223, 0.05) 0%,
+        transparent 60%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 3px,
+        rgba(232, 230, 223, 0.012) 3px 4px
+      );
+  }
+
   .grain::after {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: 60;
+    z-index: 90;
     pointer-events: none;
-    opacity: 0.35;
-    background-image: radial-gradient(rgba(23, 21, 15, 0.16) 1px, transparent 1px);
-    background-size: 4px 4px;
-    mix-blend-mode: multiply;
+    opacity: 0.5;
+    background-image: radial-gradient(
+      rgba(232, 230, 223, 0.045) 1px,
+      transparent 1px
+    );
+    background-size: 3px 3px;
   }
 
-  .rule {
-    border-color: rgba(23, 21, 15, 0.16);
+  /* ── the notebook bezel ─────────────────────────────────────────────
+     Red moulded plastic: a light top edge, a dark bottom edge and a fine
+     speckle so it does not read as flat vector red. */
+  .bezel {
+    background-color: var(--color-pen);
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        transparent 8%,
+        transparent 88%,
+        rgba(20, 19, 14, 0.28) 100%
+      ),
+      repeating-linear-gradient(
+        41deg,
+        transparent 0 2px,
+        rgba(20, 19, 14, 0.05) 2px 3px
+      );
+    box-shadow:
+      0 30px 70px -20px rgba(0, 0, 0, 0.75),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   }
 
-  .card-edge {
-    box-shadow: 6px 6px 0 rgba(23, 21, 15, 0.9);
+  /* ── the cutting mat ────────────────────────────────────────────────
+     A dark self-healing mat: fine grid, heavier every 5, plus crosshairs. */
+  .mat {
+    background-color: #100f0b;
+    background-image:
+      linear-gradient(rgba(232, 230, 223, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232, 230, 223, 0.05) 1px, transparent 1px),
+      linear-gradient(rgba(232, 230, 223, 0.11) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232, 230, 223, 0.11) 1px, transparent 1px);
+    background-size:
+      44px 44px,
+      44px 44px,
+      220px 220px,
+      220px 220px;
   }
 
-  .card-edge-soft {
-    box-shadow: 4px 4px 0 rgba(23, 21, 15, 0.18);
+  /* ── hand-drawn strokes ─────────────────────────────────────────────
+     Applied to SVG art so straight paths pick up a pen wobble. */
+  .wobble {
+    filter: url(#wobble);
+  }
+  .wobble-soft {
+    filter: url(#wobble-soft);
   }
 
-  .sticker-shadow {
-    filter: drop-shadow(6px 8px 10px rgba(23, 21, 15, 0.22));
+  /* Chalk margin doodles: bright but low-contrast against the board. */
+  .chalk {
+    color: var(--color-chalk);
+    opacity: 0.5;
   }
 
-  .kicker {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
+  /* ── screen-reader only ─────────────────────────────────────────── */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
-  .hand {
-    font-family: var(--font-hand);
+  /* Anything the visitor may drag; grabbing is a whole-hand gesture. */
+  .grabbable {
+    cursor: grab;
   }
-
-  /* Scroll-snap belt used by the mobile belief cards. */
-  .snap-belt {
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-  .snap-belt::-webkit-scrollbar {
-    display: none;
-  }
-  .snap-item {
-    scroll-snap-align: center;
+  .grabbable:active {
+    cursor: grabbing;
   }
 }
 
-/* Nothing loops, drifts or slides when the visitor asked it not to. */
+/*
+ * Reduced motion. Every animated component also reads the media query in JS
+ * and renders its resting state, so this is a backstop for CSS transitions
+ * rather than the only defence.
+ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
