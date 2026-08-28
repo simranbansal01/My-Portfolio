@@ -20,6 +20,7 @@ Top to bottom, the page is one argument:
 | --- | --- |
 | **Notebook** | A red moulded case holding two paper pages — the hero on grid paper, the editorial intro in columns — separated by a ribbon bookmark. |
 | **Notes** | Three torn papers that slide out over the case's bottom edge and spread across the desk on scrub. |
+| **Gallery** | The four concepts as framed mockups, scattered across the desk and drifting at different rates so the wall separates into layers. |
 | **Mat** | A numbered cutting mat in perspective. It tilts in, lies flat through the middle of the scroll where the work is read, and tilts away as it leaves. |
 | **Polaroid** | Hangs off the mat's bottom edge on a dashed red thread. Draggable; springs back. |
 | **Ledger** | The career, reconciled one line at a time. Rows tick off in red as the scroll passes through them. |
@@ -41,7 +42,7 @@ annotations and cursor parallax are not rendered at all, and nothing is pinned.
 | Scroll | Lenis on the GSAP ticker | native scrolling |
 | Nav | three words, hover draws a pen ring and pops a doodle | a row of tap targets |
 | Notes | scrubbed spread across the desk | dealt down the page, each on its own angle |
-| Work | one pinned mat in perspective | the mat narrowed to a strip, ruler kept |
+| Work | scattered mockups, then one pinned mat in perspective | mockups stacked, the mat narrowed to a strip |
 | Margins | rails, chalk objects, red annotations | none |
 
 ## Motion rules
@@ -70,6 +71,7 @@ Everything drawn is original SVG, authored in `src/art/`:
 | `Doodles.tsx` | Chalk desk objects for the margins. All stroke, no fill. |
 | `Marks.tsx` | Red-pen marks: the hover ring, checkbox and tick, strike-through, underline, the rough frame, the hanging thread. |
 | `Scenes.tsx` | The three line drawings. |
+| `Mockups.tsx` | Concept UI for the four stories. **Not screenshots** — none of the four shipped. They draw the interface each concept describes, and are held to the guardrails strictly: no user counts, no adoption, no revenue, no percentages, no testimonials, no named people. Every value on screen is interface scaffolding — a step, a status, a day of the week — never a claim about how the concept performed. |
 
 Paper, grid, ruled, graph, kraft, the board, the bezel and the mat are all CSS —
 gradients and clip-paths, no raster textures, so they stay crisp at any zoom.

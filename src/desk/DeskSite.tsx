@@ -11,6 +11,7 @@ import { Notebook } from "./Notebook";
 import { Polaroid } from "./Polaroid";
 import { ProofMarquee } from "./ProofMarquee";
 import { Rails } from "./Rails";
+import { WorkGallery } from "./WorkGallery";
 import { WorkMat } from "./WorkMat";
 
 /**
@@ -38,6 +39,7 @@ export function DeskSite({ reduced }: { reduced: boolean }) {
         <main>
           <Notebook reduced={reduced} />
           <Beliefs reduced={reduced} />
+          <WorkGallery reduced={reduced} />
           <WorkMat reduced={reduced} />
           <Polaroid reduced={reduced} hangsFromMat />
           <Ledger reduced={reduced} />

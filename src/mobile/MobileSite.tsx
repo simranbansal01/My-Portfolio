@@ -21,6 +21,7 @@ import { Ledger } from "../desk/Ledger";
 import { LookingFor } from "../desk/LookingFor";
 import { Polaroid } from "../desk/Polaroid";
 import { ProofMarquee } from "../desk/ProofMarquee";
+import { WorkGalleryMobile } from "../desk/WorkGallery";
 
 /**
  * The phone edition.
@@ -44,6 +45,7 @@ export function MobileSite({ reduced }: { reduced: boolean }) {
         <main>
           <MobileHero reduced={reduced} />
           <MobileBeliefs />
+          <WorkGalleryMobile />
           <MobileWork />
           <Polaroid reduced={reduced} />
           <Ledger reduced={reduced} />
@@ -153,14 +155,14 @@ function MobileRole({ reduced }: { reduced: boolean }) {
 
   if (reduced) {
     return (
-      <p className="mt-1 font-display text-[26px] leading-tight text-pen italic">
+      <p className="mt-1 font-display text-[21px] leading-tight text-pen italic">
         {roles[0]}
       </p>
     );
   }
 
   return (
-    <div className="relative mt-1 h-[1.2em] overflow-hidden font-display text-[26px] leading-[1.15] text-pen italic">
+    <div className="relative mt-1 h-[1.42em] overflow-hidden font-display text-[21px] leading-[1.15] whitespace-nowrap text-pen italic">
       {roles.map((role, i) => (
         <span
           key={role}

@@ -129,14 +129,14 @@ function RotatingRole({ reduced }: { reduced: boolean }) {
 
   if (reduced) {
     return (
-      <p className="mt-2 font-display text-[clamp(28px,5vw,60px)] leading-[1.06] font-normal text-pen italic">
+      <p className="mt-3 font-display text-[clamp(24px,3.4vw,42px)] leading-[1.1] font-normal text-pen italic">
         {roles[0]}
       </p>
     );
   }
 
   return (
-    <div className="relative mt-2 h-[1.12em] overflow-hidden font-display text-[clamp(28px,5vw,60px)] leading-[1.06] font-normal text-pen italic">
+    <div className="relative mt-3 h-[1.38em] overflow-hidden font-display text-[clamp(24px,3.4vw,42px)] leading-[1.1] font-normal text-pen italic">
       {roles.map((role, i) => (
         <span
           key={role}
