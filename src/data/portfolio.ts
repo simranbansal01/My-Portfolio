@@ -204,6 +204,19 @@ export const stories: readonly Story[] = [
   },
 ];
 
+/**
+ * The deployed product to embed on a story's page, if there is one.
+ *
+ * Only a "Live" destination qualifies. The two Claude artifact links are not
+ * embeddable and never will be: claude.ai serves `frame-ancestors 'self'`, and
+ * the sandbox origin its CSP names is not reachable without the owner's
+ * session. Those stories keep the drawing instead.
+ */
+export function livePreviewHref(story: Story): string | null {
+  const live = story.links.find((l) => l.label === "Live");
+  return live && !isPlaceholderHref(live.href) ? live.href : null;
+}
+
 /** Looks a story up by the slug in its URL. */
 export function storyBySlug(slug: string): Story | undefined {
   return stories.find((s) => s.slug === slug);

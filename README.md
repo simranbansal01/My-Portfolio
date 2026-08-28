@@ -68,6 +68,26 @@ loaders, a routing library would be weight without work. What it does do:
 Deep links work in production because `netlify.toml` already serves
 `index.html` for any path.
 
+## Previews
+
+A project page embeds the deployed product where there is one, and falls back
+to the drawing where there isn't. `livePreviewHref()` decides: only a **Live**
+destination qualifies.
+
+The two Claude artifact links can never be embedded — claude.ai serves
+`frame-ancestors 'self'`, and the sandbox origin its CSP names 404s without the
+owner's session. Those are also the authenticated `/code/artifact/` view rather
+than public share links, so they may not open for a visitor at all.
+
+`LivePreview` renders the site at a full desktop width and scales it down (the
+scale is measured in JS — CSS cannot divide a length by a length to get the
+unitless number `scale()` needs). It loads lazily, stays inert until clicked so
+a scaled iframe cannot swallow the page scroll, and sandboxes without
+`allow-top-navigation` so an embedded page cannot navigate the portfolio away.
+A fallback sits *behind* the frame: it is what you see while the product loads,
+and what you are left with if it never does, since a refused frame cannot be
+detected cross-origin.
+
 ## The three interactions
 
 `src/desk/demos/`, shown on the project pages — each one runs the concept's
@@ -109,7 +129,7 @@ Everything drawn is original SVG, authored in `src/art/`:
 | `Doodles.tsx` | Chalk desk objects for the margins. All stroke, no fill. |
 | `Marks.tsx` | Red-pen marks: the hover ring, checkbox and tick, strike-through, underline, the rough frame, the hanging thread. |
 | `Scenes.tsx` | The three line drawings. |
-| `Mockups.tsx` | Concept UI for the four stories. **Not screenshots** — none of the four shipped. They draw the interface each concept describes, and are held to the guardrails strictly: no user counts, no adoption, no revenue, no percentages, no testimonials, no named people. Every value on screen is interface scaffolding — a step, a status, a day of the week — never a claim about how the concept performed. |
+| `Mockups.tsx` | Concept UI, used on the gallery tiles and on the two project pages with nothing deployed to embed. **Not screenshots** — none of the four shipped. They draw the interface each concept describes, and are held to the guardrails strictly: no user counts, no adoption, no revenue, no percentages, no testimonials, no named people. Every value on screen is interface scaffolding — a step, a status, a day of the week — never a claim about how the concept performed. |
 
 Paper, grid, ruled, graph, kraft, the board, the bezel and the mat are all CSS —
 gradients and clip-paths, no raster textures, so they stay crisp at any zoom.

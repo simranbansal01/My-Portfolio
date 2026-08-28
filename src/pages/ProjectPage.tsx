@@ -4,11 +4,13 @@ import { MOCKUP_BY_NO } from "../art/mockupIndex";
 import {
   identity,
   isPlaceholderHref,
+  livePreviewHref,
   stories,
   type Story,
 } from "../data/portfolio";
 import { useIsMobileLayout } from "../lib/hooks";
 import { Link } from "../components/Link";
+import { LivePreview } from "../components/LivePreview";
 import { useDocumentTitle } from "../lib/router";
 import { PivotDemo } from "../desk/demos/PivotDemo";
 import { VerdictDemo } from "../desk/demos/VerdictDemo";
@@ -34,6 +36,7 @@ export function ProjectPage({ story }: { story: Story }) {
   const isMobile = useIsMobileLayout();
   const Mock = MOCKUP_BY_NO[story.no];
   const Demo = story.demo ? DEMOS[story.demo] : null;
+  const preview = livePreviewHref(story);
 
   useDocumentTitle(`${story.title} — ${identity.name}`);
 
@@ -82,16 +85,40 @@ export function ProjectPage({ story }: { story: Story }) {
             </p>
           </header>
 
-          {/* The concept, drawn. Not a screenshot — none of these shipped. */}
-          {Mock && (
+          {/* The deployed thing where there is one; the drawing where there
+              isn't. Nothing here is captioned as more than it is. */}
+          {preview ? (
             <figure className="mt-9">
-              <div className="mx-auto max-w-[520px]">
-                <Mock />
-              </div>
+              <LivePreview
+                url={preview}
+                title={story.title}
+                designWidth={isMobile ? 430 : 1280}
+                designHeight={isMobile ? 760 : 800}
+              />
               <figcaption className="mono mt-3 text-center text-ink-soft">
-                A drawing of the interface, not a screenshot
+                The deployed product, running here ·{" "}
+                <a
+                  href={preview}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="border-b border-pen text-pen"
+                >
+                  open it in a tab
+                </a>{" "}
+                if it doesn't load
               </figcaption>
             </figure>
+          ) : (
+            Mock && (
+              <figure className="mt-9">
+                <div className="mx-auto max-w-[520px]">
+                  <Mock />
+                </div>
+                <figcaption className="mono mt-3 text-center text-ink-soft">
+                  A drawing of the interface, not a screenshot
+                </figcaption>
+              </figure>
+            )
           )}
 
           <dl className="mt-10">
