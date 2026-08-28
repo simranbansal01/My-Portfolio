@@ -22,7 +22,7 @@ Top to bottom, the page is one argument:
 | **Notes** | Three torn papers that slide out over the case's bottom edge and spread across the desk on scrub. |
 | **Gallery** | The four concepts as framed mockups, scattered across the desk and drifting at different rates so the wall separates into layers. |
 | **Gallery tiles** | Every tile is a door. Clicking one opens that project's own page at `/work/<slug>`, where the story, its interaction and its links live. |
-| **Mat** | A numbered cutting mat in perspective, now carrying the work that is still open. It tilts in, lies flat through the middle of the scroll, and tilts away as it leaves. |
+| **Moodboard** | The cutting mat in perspective, carrying the work that is still open — sheets torn off a notepad, pinned and taped to the board at the angles they landed. It tilts in, lies flat through the middle of the scroll, and tilts away as it leaves. |
 | **Polaroid** | Hangs off the mat's bottom edge on a dashed red thread. Draggable; springs back. |
 | **Ledger** | The career, reconciled one line at a time. Rows tick off in red as the scroll passes through them. |
 | **Proof** | The only verified figures on the site, run as a printed band. |

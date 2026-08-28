@@ -1,25 +1,32 @@
 import { useRef, useState } from "react";
-import { credix, investigations } from "../data/portfolio";
+import { NotepadSheet, Pushpin, TapeStrip } from "../components/NotepadSheet";
+import {
+  credix,
+  investigatingNote,
+  investigations,
+} from "../data/portfolio";
 import { mix, range, useScrub } from "../lib/scrub";
 
 /**
- * The cutting mat.
+ * Currently investigating — a moodboard.
  *
- * A self-healing mat, ruled and numbered down its edge, carrying the work that
- * is still open. It is a plane in perspective: it comes in steeply tilted,
- * lies flat through the middle of the scroll — which is where everything on it
- * is meant to be read — and tilts away again as it leaves.
+ * The finished work is filed on its own pages. What is left here is the
+ * unfinished half, so it is arranged the way unfinished thinking actually sits
+ * on a desk: sheets torn off a notepad, pinned and taped to the board at the
+ * angles they happened to land, overlapping a little, with the content
+ * master's own margin note for this section written on a scrap among them.
  *
- * The four finished stories used to sit here too. They moved into normal flow
- * once they carried interactions, because a control on a plane that is tilting
- * and travelling under the cursor is a thing to fight rather than use. What is
- * left is the unfinished half, which suits the surface: nothing on the mat has
- * been cut out yet.
+ * Restraint is the whole job. Each sheet is held by one thing and one thing
+ * only: the bound sheets hang from their own wire, the torn scrap is taped,
+ * and a single pin holds down the one loose corner. Rotations stay under three
+ * degrees. A board that shouts about being a board stops being one.
  *
- * The whole thing is one scrubbed pin. Scroll position is the playhead.
+ * The board itself is still the cutting mat in perspective: it comes in
+ * tilted, lies flat where the cards are read, and tilts away as it leaves.
+ * One scrubbed pin — scroll position is the playhead.
  */
 
-const PLANE_HEIGHT = 690;
+const PLANE_HEIGHT = 762;
 const RULER_MARKS = 8;
 
 export function WorkMat({ reduced }: { reduced: boolean }) {
@@ -36,16 +43,13 @@ export function WorkMat({ reduced }: { reduced: boolean }) {
 
   if (reduced) return <WorkMatStatic />;
 
-  // Tilt in over the first fifth, hold flat while the work is read, tilt out
-  // over the last fifth.
   const tiltIn = range(p, 0, 0.18);
   const tiltOut = range(p, 0.82, 1);
   const rotateX = mix(24, 0, tiltIn) + mix(0, -15, tiltOut);
 
-  // Now that the plane is shorter than the stage it passes through rather than
-  // scrolling past: it enters from below with its top edge showing, sits
-  // centred while it is flat, and leaves with its bottom edge showing. Both
-  // edges are visible at some point, which is what makes it read as an object.
+  // The plane is shorter than the stage, so it passes through: in from below
+  // with its top edge showing, centred while flat, out with its bottom edge
+  // showing. Seeing both edges is what makes it read as an object.
   const y = mix(620, -(PLANE_HEIGHT - 220), p);
 
   return (
@@ -65,19 +69,9 @@ export function WorkMat({ reduced }: { reduced: boolean }) {
       >
         <Ruler />
         <div className="absolute inset-y-0 right-0 left-14">
-          <SectionTab
-            top={40}
-            label="Currently investigating."
-            note="The next stories aren't finished yet"
-          />
-
-          <CredixCard />
-          {investigations.map((item, i) => (
-            <InvestigationCard key={item.title} item={item} index={i} />
-          ))}
-
-          {/* Printed on the mat itself, bottom right, the way a maker's mark is. */}
-          <p className="hand absolute right-8 bottom-8 text-[22px] text-chalk/55">
+          <Heading />
+          <Board />
+          <p className="hand absolute right-8 bottom-7 text-[22px] text-chalk/55">
             everything you do, do it with care.
           </p>
         </div>
@@ -107,97 +101,154 @@ function Ruler() {
   );
 }
 
-function SectionTab({
-  top,
-  label,
-  note,
-}: {
-  top: number;
-  label: string;
-  note: string;
-}) {
+function Heading() {
   return (
-    <header
-      className="absolute right-8 left-8 flex flex-wrap items-baseline justify-between gap-3 border-b border-paper/20 pb-3"
-      style={{ top }}
-    >
+    <header className="absolute top-10 right-8 left-8 flex flex-wrap items-baseline justify-between gap-3 border-b border-paper/20 pb-3">
       <h2 className="font-display text-[clamp(20px,2.6vw,34px)] font-bold text-paper">
-        {label}
+        Currently investigating.
       </h2>
-      <span className="mono text-paper/50">{note}</span>
+      <span className="mono text-paper/50">
+        The next stories aren't finished yet
+      </span>
     </header>
   );
 }
 
-function CredixCard() {
+/* ── the board ────────────────────────────────────────────────────────── */
+
+/** Where each piece landed. Angles stay under three degrees on purpose. */
+const SEATS = {
+  credix: { top: 124, left: "0%", width: "47%", rotate: -1.1 },
+  memory: { top: 118, left: "52%", width: "43%", rotate: 1.9 },
+  stays: { top: 402, left: "55%", width: "37%", rotate: -2.3 },
+  scrap: { top: 600, left: "37%", width: "34%", rotate: 2.4 },
+} as const;
+
+function Board() {
+  const [memory, stays] = investigations;
+
   return (
-    <article
-      className="paper-plain absolute rounded-[6px] p-7 text-ink shadow-[0_26px_60px_-24px_rgba(0,0,0,.85)]"
-      style={{ top: 150, left: "1%", width: "50%", transform: "rotate(0.7deg)" }}
-    >
-      <span className="mono inline-block border border-pen px-2 py-1 text-pen">
-        {credix.status}
-      </span>
-      <h3 className="mt-3 font-display text-[clamp(22px,2.5vw,32px)] font-bold">
-        {credix.title}
-      </h3>
-      <p className="mt-3 font-body text-ink-soft">{credix.lede}</p>
-      <p className="mt-3 font-body text-[16px]">{credix.body}</p>
-      <div className="mt-5">
-        {credix.pillars.map((pillar) => (
-          <div key={pillar.no} className="flex gap-4 border-t border-rule py-2.5">
-            <b className="mono pt-1 text-pen">{pillar.no}</b>
-            <span className="font-body text-[15px]">{pillar.text}</span>
+    <>
+      {/* The one still being built gets the biggest sheet. */}
+      <div
+        className="absolute"
+        style={{
+          top: SEATS.credix.top,
+          left: SEATS.credix.left,
+          width: SEATS.credix.width,
+          transform: `rotate(${SEATS.credix.rotate}deg)`,
+          zIndex: 3,
+        }}
+      >
+        <NotepadSheet stock="plain">
+          <div className="px-7 pb-8">
+            <span className="mono inline-block border border-pen px-2 py-1 text-pen">
+              {credix.status}
+            </span>
+            <h3 className="mt-3 font-display text-[clamp(22px,2.5vw,32px)] font-bold">
+              {credix.title}
+            </h3>
+            <p className="mt-3 font-body text-ink-soft">{credix.lede}</p>
+            <p className="mt-3 font-body text-[16px]">{credix.body}</p>
+            <div className="mt-5">
+              {credix.pillars.map((pillar) => (
+                <div
+                  key={pillar.no}
+                  className="flex gap-4 border-t border-rule py-2.5"
+                >
+                  <b className="mono pt-1 text-pen">{pillar.no}</b>
+                  <span className="font-body text-[15px]">{pillar.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
+        </NotepadSheet>
       </div>
-    </article>
+
+      <InvestigationSheet item={memory} seat={SEATS.memory} z={2} />
+      <InvestigationSheet item={stays} seat={SEATS.stays} z={1} pinned />
+
+      {/* The content master's own note for this section, on a torn scrap. */}
+      <div
+        className="absolute"
+        style={{
+          top: SEATS.scrap.top,
+          left: SEATS.scrap.left,
+          width: SEATS.scrap.width,
+          transform: `rotate(${SEATS.scrap.rotate}deg)`,
+          zIndex: 4,
+        }}
+      >
+        <TapeStrip
+          width={88}
+          className="absolute -top-2.5 left-4 z-10 -rotate-[7deg]"
+        />
+        <NotepadSheet stock="ruled" bound={false}>
+          <div className="px-6 pb-7">
+            <p className="hand text-[26px] leading-[1.25] text-ink">
+              {investigatingNote}
+            </p>
+          </div>
+        </NotepadSheet>
+      </div>
+    </>
   );
 }
 
-const INVESTIGATION_SEATS = [
-  { top: 150, left: "55%", rotate: -1.2 },
-  { top: 430, left: "55%", rotate: 1.4 },
-];
-
-function InvestigationCard({
+function InvestigationSheet({
   item,
-  index,
+  seat,
+  z,
+  pinned = false,
 }: {
   item: (typeof investigations)[number];
-  index: number;
+  seat: { top: number; left: string; width: string; rotate: number };
+  z: number;
+  pinned?: boolean;
 }) {
-  const seat = INVESTIGATION_SEATS[index];
   return (
-    <article
-      className="paper-kraft absolute rounded-[4px] p-6 text-ink shadow-[0_22px_50px_-22px_rgba(0,0,0,.85)]"
+    <div
+      className="absolute"
       style={{
         top: seat.top,
         left: seat.left,
-        width: "41%",
+        width: seat.width,
         transform: `rotate(${seat.rotate}deg)`,
+        zIndex: z,
       }}
     >
-      <span className="mono inline-block border border-pen px-2 py-1 text-pen">
-        {item.status}
-      </span>
-      <h3 className="mt-3 font-display text-[clamp(19px,2.1vw,26px)] font-bold">
-        {item.title}
-      </h3>
-      <p className="mt-2 font-body text-[16px] text-ink-soft">{item.body}</p>
-    </article>
+      <NotepadSheet stock="ruled">
+        <div className="px-6 pb-7">
+          <span className="mono inline-block border border-pen px-2 py-1 text-pen">
+            {item.status}
+          </span>
+          <h3 className="mt-3 font-display text-[clamp(19px,2.1vw,26px)] font-bold">
+            {item.title}
+          </h3>
+          <p className="mt-2 font-body text-[16px] text-ink-soft">
+            {item.body}
+          </p>
+        </div>
+      </NotepadSheet>
+      {pinned && (
+        <Pushpin size={18} className="absolute right-7 bottom-4 z-10" />
+      )}
+    </div>
   );
 }
 
+/* ── reduced motion ───────────────────────────────────────────────────── */
+
 /**
- * Reduced motion: the same mat, laid out flat in document order, with the
- * plane's travel and tilt removed rather than reproduced with transitions.
+ * The same board with the plane's travel and tilt removed rather than
+ * reproduced with transitions. The sheets keep their binding and their stock —
+ * that is the design, not the motion — but they sit square and in order.
  */
 function WorkMatStatic() {
   return (
     <section
       aria-label="Currently investigating"
-      className="mat relative mx-[3%] rounded-[10px] px-6 py-16"
+      className="mat relative mx-[3%] rounded-[10px] px-6 py-14"
     >
       <header className="flex flex-wrap items-baseline justify-between gap-3 border-b border-paper/20 pb-3">
         <h2 className="font-display text-[clamp(20px,2.6vw,34px)] font-bold text-paper">
@@ -208,49 +259,61 @@ function WorkMatStatic() {
         </span>
       </header>
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-2">
-        <article className="paper-plain rounded-[6px] p-7 text-ink">
-          <span className="mono inline-block border border-pen px-2 py-1 text-pen">
-            {credix.status}
-          </span>
-          <h3 className="mt-3 font-display text-[28px] font-bold">
-            {credix.title}
-          </h3>
-          <p className="mt-3 font-body text-ink-soft">{credix.lede}</p>
-          <p className="mt-3 font-body text-[16px]">{credix.body}</p>
-          <div className="mt-5">
-            {credix.pillars.map((pillar) => (
-              <div
-                key={pillar.no}
-                className="flex gap-4 border-t border-rule py-2.5"
-              >
-                <b className="mono pt-1 text-pen">{pillar.no}</b>
-                <span className="font-body text-[15px]">{pillar.text}</span>
-              </div>
-            ))}
+      <div className="mt-12 grid gap-10 lg:grid-cols-2">
+        <NotepadSheet stock="plain">
+          <div className="px-7 pb-8">
+            <span className="mono inline-block border border-pen px-2 py-1 text-pen">
+              {credix.status}
+            </span>
+            <h3 className="mt-3 font-display text-[28px] font-bold">
+              {credix.title}
+            </h3>
+            <p className="mt-3 font-body text-ink-soft">{credix.lede}</p>
+            <p className="mt-3 font-body text-[16px]">{credix.body}</p>
+            <div className="mt-5">
+              {credix.pillars.map((pillar) => (
+                <div
+                  key={pillar.no}
+                  className="flex gap-4 border-t border-rule py-2.5"
+                >
+                  <b className="mono pt-1 text-pen">{pillar.no}</b>
+                  <span className="font-body text-[15px]">{pillar.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </article>
-        <div className="grid content-start gap-8">
+        </NotepadSheet>
+
+        <div className="grid content-start gap-10">
           {investigations.map((item) => (
-            <article
-              key={item.title}
-              className="paper-kraft rounded-[4px] p-6 text-ink"
-            >
-              <span className="mono inline-block border border-pen px-2 py-1 text-pen">
-                {item.status}
-              </span>
-              <h3 className="mt-3 font-display text-[24px] font-bold">
-                {item.title}
-              </h3>
-              <p className="mt-2 font-body text-[16px] text-ink-soft">
-                {item.body}
-              </p>
-            </article>
+            <NotepadSheet key={item.title} stock="ruled">
+              <div className="px-6 pb-7">
+                <span className="mono inline-block border border-pen px-2 py-1 text-pen">
+                  {item.status}
+                </span>
+                <h3 className="mt-3 font-display text-[24px] font-bold">
+                  {item.title}
+                </h3>
+                <p className="mt-2 font-body text-[16px] text-ink-soft">
+                  {item.body}
+                </p>
+              </div>
+            </NotepadSheet>
           ))}
         </div>
       </div>
 
-      <p className="hand mt-12 text-right text-[22px] text-chalk/55">
+      <div className="mt-12 max-w-[420px]">
+        <NotepadSheet stock="ruled" bound={false}>
+          <div className="px-6 pb-7">
+            <p className="hand text-[26px] leading-[1.25] text-ink">
+              {investigatingNote}
+            </p>
+          </div>
+        </NotepadSheet>
+      </div>
+
+      <p className="hand mt-10 text-right text-[22px] text-chalk/55">
         everything you do, do it with care.
       </p>
     </section>

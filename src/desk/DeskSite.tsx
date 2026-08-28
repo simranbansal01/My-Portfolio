@@ -41,7 +41,7 @@ export function DeskSite({ reduced }: { reduced: boolean }) {
           <Beliefs reduced={reduced} />
           <WorkGallery reduced={reduced} />
           <WorkMat reduced={reduced} />
-          <Polaroid reduced={reduced} hangsFromMat />
+          <Polaroid reduced={reduced} hangsFromMat={!reduced} />
           <Ledger reduced={reduced} />
           <ProofMarquee reduced={reduced} />
           <LookingFor />

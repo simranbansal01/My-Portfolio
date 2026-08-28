@@ -308,14 +308,21 @@ export const colophon = [
   "Annotated in red",
 ] as const;
 
-/** Margin annotations. Drift on cursor, always in the pen colour. */
 /** `#` is the content master's stand-in for a destination not yet decided. */
 export function isPlaceholderHref(href: string): boolean {
   return href === "#" || href === "";
 }
 
+/** Margin annotations. Drift on cursor, always in the pen colour. */
 export const annotations = [
   "black + white first. colour when you look closer.",
   "follow the friction.",
-  "a small question with a suspiciously large rabbit hole.",
 ] as const;
+
+/**
+ * The content master pins this one to the "Currently investigating" section
+ * specifically, so it is written on the board itself rather than left to
+ * float in the margin with the other two.
+ */
+export const investigatingNote =
+  "a small question with a suspiciously large rabbit hole.";

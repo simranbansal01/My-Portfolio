@@ -14,6 +14,7 @@ import {
 import { scrollToId } from "../lib/smoothScroll";
 import { useLocalTime } from "../lib/hooks";
 import { useRefreshOnFonts } from "../lib/scrub";
+import { NotepadSheet } from "../components/NotepadSheet";
 import { Footer } from "../desk/Footer";
 import { Ledger } from "../desk/Ledger";
 import { LookingFor } from "../desk/LookingFor";
@@ -239,43 +240,50 @@ function MobileWork() {
 
       <div className="relative flex flex-col gap-6 pl-9">
         <MatRuler />
-        <article className="paper-plain rounded-[5px] p-6 text-ink shadow-[0_20px_44px_-20px_rgba(0,0,0,.85)]">
-          <span className="mono inline-block border border-pen px-2 py-1 text-pen">
-            {credix.status}
-          </span>
-          <h3 className="mt-3 font-display text-[24px] font-bold">
-            {credix.title}
-          </h3>
-          <p className="mt-3 font-body text-[16px] text-ink-soft">
-            {credix.lede}
-          </p>
-          <p className="mt-3 font-body text-[15px]">{credix.body}</p>
-          <div className="mt-4">
-            {credix.pillars.map((pillar) => (
-              <div key={pillar.no} className="flex gap-3 border-t border-rule py-2.5">
-                <b className="mono pt-1 text-pen">{pillar.no}</b>
-                <span className="font-body text-[15px]">{pillar.text}</span>
-              </div>
-            ))}
+        <NotepadSheet stock="plain">
+          <div className="px-5 pb-7">
+            <span className="mono inline-block border border-pen px-2 py-1 text-pen">
+              {credix.status}
+            </span>
+            <h3 className="mt-3 font-display text-[24px] font-bold">
+              {credix.title}
+            </h3>
+            <p className="mt-3 font-body text-[16px] text-ink-soft">
+              {credix.lede}
+            </p>
+            <p className="mt-3 font-body text-[15px]">{credix.body}</p>
+            <div className="mt-4">
+              {credix.pillars.map((pillar) => (
+                <div
+                  key={pillar.no}
+                  className="flex gap-3 border-t border-rule py-2.5"
+                >
+                  <b className="mono pt-1 text-pen">{pillar.no}</b>
+                  <span className="font-body text-[15px]">{pillar.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </article>
+        </NotepadSheet>
 
         {investigations.map((item, i) => (
-          <article
+          <NotepadSheet
             key={item.title}
-            className="paper-kraft rounded-[4px] p-6 text-ink shadow-[0_20px_44px_-20px_rgba(0,0,0,.85)]"
+            stock="ruled"
             style={{ transform: `rotate(${i === 0 ? -0.7 : 0.8}deg)` }}
           >
-            <span className="mono inline-block border border-pen px-2 py-1 text-pen">
-              {item.status}
-            </span>
-            <h3 className="mt-3 font-display text-[21px] font-bold">
-              {item.title}
-            </h3>
-            <p className="mt-2 font-body text-[15px] text-ink-soft">
-              {item.body}
-            </p>
-          </article>
+            <div className="px-5 pb-6">
+              <span className="mono inline-block border border-pen px-2 py-1 text-pen">
+                {item.status}
+              </span>
+              <h3 className="mt-3 font-display text-[21px] font-bold">
+                {item.title}
+              </h3>
+              <p className="mt-2 font-body text-[15px] text-ink-soft">
+                {item.body}
+              </p>
+            </div>
+          </NotepadSheet>
         ))}
       </div>
     </section>

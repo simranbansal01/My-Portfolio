@@ -129,6 +129,23 @@
     background-size: 21px 21px;
   }
 
+  /* Notepad stock: the tooth, plus a faint rule. Kept light on purpose —
+     behind body copy a strong rule competes with the text. */
+  .notepad-ruled {
+    background-color: var(--color-paper);
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 3px,
+        rgba(20, 19, 14, 0.022) 3px 4px
+      ),
+      repeating-linear-gradient(
+        180deg,
+        transparent 0 25px,
+        rgba(72, 106, 168, 0.22) 25px 26px
+      );
+  }
+
   /* Brown card stock. */
   .paper-kraft {
     background-color: var(--color-kraft);
