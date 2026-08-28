@@ -10,8 +10,6 @@ import {
   intro,
   investigations,
   nav,
-  stories,
-  type Story,
 } from "../data/portfolio";
 import { scrollToId } from "../lib/smoothScroll";
 import { useLocalTime } from "../lib/hooks";
@@ -22,6 +20,7 @@ import { LookingFor } from "../desk/LookingFor";
 import { Polaroid } from "../desk/Polaroid";
 import { ProofMarquee } from "../desk/ProofMarquee";
 import { WorkGalleryMobile } from "../desk/WorkGallery";
+import { CaseFiles } from "../desk/CaseFiles";
 
 /**
  * The phone edition.
@@ -46,6 +45,7 @@ export function MobileSite({ reduced }: { reduced: boolean }) {
           <MobileHero reduced={reduced} />
           <MobileBeliefs />
           <WorkGalleryMobile />
+          <CaseFiles />
           <MobileWork />
           <Polaroid reduced={reduced} />
           <Ledger reduced={reduced} />
@@ -223,30 +223,14 @@ function MobileBeliefs() {
 
 /**
  * The mat, narrowed to a strip. The ruler stays — it is what makes the surface
- * a mat — and the work sits on it as a single readable column.
+ * a mat — and the unfinished work sits on it as a single readable column. The
+ * four finished stories are the shared case files above, so the phone gets the
+ * same interactions rather than a cut-down retelling of them.
  */
 function MobileWork() {
   return (
-    <section id="work" className="mat mx-3 rounded-[14px] px-3 py-10">
+    <section className="mat mx-3 rounded-[14px] px-3 py-10">
       <header className="mb-8 border-b border-paper/20 pb-3 pl-9">
-        <h2 className="font-display text-[24px] leading-tight font-bold text-paper">
-          Things I noticed. Directions I took.
-        </h2>
-        <span className="mono mt-2 block text-paper/50">
-          Selected product stories · 04
-        </span>
-      </header>
-
-      <div className="relative pl-9">
-        <MatRuler />
-        <div className="flex flex-col gap-6">
-          {stories.map((story, i) => (
-            <MobileStory key={story.no} story={story} tilt={[-0.8, 0.9, -0.6, 0.7][i]} />
-          ))}
-        </div>
-      </div>
-
-      <header className="mt-14 mb-8 border-b border-paper/20 pb-3 pl-9">
         <h2 className="font-display text-[24px] leading-tight font-bold text-paper">
           Currently investigating.
         </h2>
@@ -318,52 +302,5 @@ function MatRuler() {
         </div>
       ))}
     </div>
-  );
-}
-
-function MobileStory({ story, tilt }: { story: Story; tilt: number }) {
-  return (
-    <article
-      className="paper-plain rounded-[5px] p-6 text-ink shadow-[0_20px_44px_-20px_rgba(0,0,0,.85)]"
-      style={{ transform: `rotate(${tilt}deg)` }}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <span
-          className="font-display text-[40px] leading-none font-extrabold text-transparent"
-          style={{ WebkitTextStroke: "1px var(--color-rule)" }}
-        >
-          {story.no}
-        </span>
-        <span className="mono max-w-[55%] pt-2 text-right text-ink-soft">
-          {story.category}
-        </span>
-      </div>
-
-      <h3 className="mt-1 font-display text-[24px] leading-[1.08] font-bold">
-        {story.title}
-      </h3>
-      <p className="mt-2 font-body text-[16px] text-ink-soft italic">
-        {story.teaser}
-      </p>
-
-      <dl className="mt-4">
-        {(
-          [
-            ["I noticed", story.noticed],
-            ["I questioned", story.questioned],
-            ["I built", story.built],
-          ] as const
-        ).map(([term, value]) => (
-          <div key={term} className="border-t border-rule py-2.5">
-            <dt className="mono text-pen">{term}</dt>
-            <dd className="mt-1 font-body text-[15px] leading-[1.5]">{value}</dd>
-          </div>
-        ))}
-      </dl>
-
-      <p className="mono mt-4 text-ink-soft">
-        {story.links.map((l) => l.label).join(" · ")}
-      </p>
-    </article>
   );
 }

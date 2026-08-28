@@ -79,13 +79,25 @@ export type Story = {
   noticed: string;
   questioned: string;
   built: string;
+  /** Which inline demo this story carries. Paarth deliberately has none. */
+  demo?: "verdict" | "workflow" | "pivot";
+  /**
+   * Notes on the thinking the concept has to keep hold of. Only present where
+   * the content master records them.
+   */
+  productThinking?: readonly string[];
+  /** A credit line the story must not be read without. */
+  ownership?: string;
   links: readonly { label: string; href: string }[];
 };
 
 /**
  * The four product stories, each on the I NOTICED → I QUESTIONED → I BUILT
- * spine the content master requires. Links are still placeholders; they are
- * marked so the UI can render them as unresolved rather than as live links.
+ * spine the content master requires.
+ *
+ * `href: "#"` still means "no destination decided" and renders as plain text
+ * rather than a dead link, so the PRD and Repo entries stay honest until they
+ * point somewhere.
  */
 export const stories: readonly Story[] = [
   {
@@ -99,11 +111,17 @@ export const stories: readonly Story[] = [
     questioned:
       "What if an AI-learning product focused less on consuming lessons and more on practice, feedback, confidence calibration and applying skills?",
     built:
-      "An interactive AI-learning concept built around a customized learning path, practical tasks and case studies, regular testing, and a shared library where learners work alongside or challenge each other.",
+      "Corner Shelf: an interactive AI-learning concept built around a customized learning path, practical tasks and case studies, regular testing, and a shared library environment where learners can work alongside or challenge each other.",
+    demo: "verdict",
+    productThinking: [
+      "Gamification should support learning, not become the product.",
+      "Beginner motivation mechanics may become annoying or performative as users become more capable.",
+      "The experience should evolve with the learner rather than doubling down on streaks forever.",
+    ],
     links: [
       { label: "PRD", href: "#" },
       { label: "Artifact", href: "#" },
-      { label: "Live", href: "#" },
+      { label: "Live", href: "https://corner-shelf.netlify.app" },
       { label: "Repo", href: "#" },
     ],
   },
@@ -112,24 +130,25 @@ export const stories: readonly Story[] = [
     title: "FastLane",
     category: "B2B × Workflow · Vendor management",
     teaser:
-      "Vendor operations look like a simple workflow until the status of one request disappears across people, tools and follow-ups.",
+      "Vendor operations often look like a simple workflow until the status of one request disappears across people, tools and follow-ups.",
     noticed:
-      "Vendor onboarding becomes a chain of chasing: unclear status, fragmented ownership, repeated follow-ups, limited visibility into what is blocking progress.",
+      "Vendor onboarding and management can become a chain of chasing: unclear status, fragmented ownership, repeated follow-ups and limited visibility into what is blocking progress.",
     questioned:
       "What would the workflow look like if status, ownership and the next action were obvious without someone manually chasing every step?",
     built:
-      "A vendor-management workflow concept designed to make requests, bottlenecks, ownership and progress readable at a glance.",
+      "FastLane: a vendor-management workflow concept designed to make requests, bottlenecks, ownership and progress easier to understand at a glance.",
+    demo: "workflow",
     links: [
       { label: "PRD", href: "#" },
       { label: "Artifact", href: "#" },
-      { label: "Live", href: "#" },
+      { label: "Live", href: "https://fastlane-xi.vercel.app/overview" },
       { label: "Repo", href: "#" },
     ],
   },
   {
     no: "03",
     title: "Paarth",
-    category: "Elder care × Marketplace",
+    category: "Healthcare / Elder care × Marketplace",
     teaser:
       "Elder care is rarely one service. Families often need to coordinate multiple needs while also figuring out who they can trust.",
     noticed:
@@ -137,29 +156,42 @@ export const stories: readonly Story[] = [
     questioned:
       "How might an elder-care product make discovering and coordinating support feel less fragmented for families?",
     built:
-      "An elder-care service ecosystem concept focused on making care discovery and coordination easier to navigate.",
+      "Paarth: an elder-care service ecosystem / marketplace concept focused on making care discovery and coordination easier to navigate.",
+    // No demo, by instruction: keep this story concise and invent no
+    // interaction or validation the project work does not support.
     links: [
       { label: "PRD", href: "#" },
-      { label: "Artifact", href: "#" },
+      {
+        label: "Artifact",
+        href: "https://claude.ai/code/artifact/155cdbed-1dff-47b8-9c25-eceb00f78503",
+      },
       { label: "Live", href: "#" },
       { label: "Repo", href: "#" },
     ],
   },
   {
     no: "04",
+    // The content master offers "WHAT HAPPENS BEFORE HELP ARRIVES?" as the
+    // alternate feature headline for this story.
     title: "The first few minutes belong to nobody.",
     category: "Gig economy × Emergency response · The Golden Hour",
     teaser:
-      "The research began in the gig economy. The direction emerged when the problem was reframed around a different question.",
+      "The research began in the gig economy. The product direction emerged when the problem was reframed around a different question: could an existing distributed network help close the gap before qualified emergency response arrives?",
     noticed:
-      "While exploring the gig economy I found a more urgent gap: the period before qualified emergency help reaches a person can be critical, yet that window may have no coordinated first-response layer.",
+      "While exploring the gig economy, I found a more urgent gap: the period before qualified emergency help reaches a person can be critically important, yet that window may have no coordinated first-response layer.",
     questioned:
       "Could the density and location of an existing gig-worker network be used differently — not as a replacement for ambulances or medical professionals, but as a way to rethink the first-response gap?",
     built:
-      "I reframed the problem and proposed the Golden Hour direction around that gap. Research for the broader case study was shared across the team; the reframe and solution direction are mine.",
+      "I reframed the problem and proposed the Golden Hour solution around that gap, connecting the idea of a distributed gig network with faster first-response support before qualified help arrives.",
+    demo: "pivot",
+    ownership:
+      "Research for the broader case study was shared across the team. I identified and reframed the emergency-response gap and proposed the solution direction.",
     links: [
       { label: "PRD", href: "#" },
-      { label: "Artifact", href: "#" },
+      {
+        label: "Artifact",
+        href: "https://claude.ai/code/artifact/b9c247c2-ddd9-4c9a-ba04-07651725c38c",
+      },
       { label: "Live", href: "#" },
       { label: "Repo", href: "#" },
     ],
@@ -253,6 +285,11 @@ export const colophon = [
 ] as const;
 
 /** Margin annotations. Drift on cursor, always in the pen colour. */
+/** `#` is the content master's stand-in for a destination not yet decided. */
+export function isPlaceholderHref(href: string): boolean {
+  return href === "#" || href === "";
+}
+
 export const annotations = [
   "black + white first. colour when you look closer.",
   "follow the friction.",

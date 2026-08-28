@@ -21,7 +21,8 @@ Top to bottom, the page is one argument:
 | **Notebook** | A red moulded case holding two paper pages — the hero on grid paper, the editorial intro in columns — separated by a ribbon bookmark. |
 | **Notes** | Three torn papers that slide out over the case's bottom edge and spread across the desk on scrub. |
 | **Gallery** | The four concepts as framed mockups, scattered across the desk and drifting at different rates so the wall separates into layers. |
-| **Mat** | A numbered cutting mat in perspective. It tilts in, lies flat through the middle of the scroll where the work is read, and tilts away as it leaves. |
+| **Case files** | The four stories at reading size, three of them carrying an interaction you can run. In normal flow, not on the mat — a control on a plane that tilts and travels under the cursor is a thing to fight rather than use. |
+| **Mat** | A numbered cutting mat in perspective, now carrying the work that is still open. It tilts in, lies flat through the middle of the scroll, and tilts away as it leaves. |
 | **Polaroid** | Hangs off the mat's bottom edge on a dashed red thread. Draggable; springs back. |
 | **Ledger** | The career, reconciled one line at a time. Rows tick off in red as the scroll passes through them. |
 | **Proof** | The only verified figures on the site, run as a printed band. |
@@ -42,8 +43,23 @@ annotations and cursor parallax are not rendered at all, and nothing is pinned.
 | Scroll | Lenis on the GSAP ticker | native scrolling |
 | Nav | three words, hover draws a pen ring and pops a doodle | a row of tap targets |
 | Notes | scrubbed spread across the desk | dealt down the page, each on its own angle |
-| Work | scattered mockups, then one pinned mat in perspective | mockups stacked, the mat narrowed to a strip |
+| Work | scattered mockups, then the case files, then the pinned mat | mockups stacked, the same case files, the mat narrowed to a strip |
 | Margins | rails, chalk objects, red annotations | none |
+
+## The three interactions
+
+`src/desk/demos/` — each one runs the concept's own argument rather than
+describing it. All three are bounded the same way: they demonstrate what the
+concept *proposes*, and assert nothing about how it performed.
+
+| | |
+| --- | --- |
+| `VerdictDemo` | Corner Shelf. Judge two sample outputs, state your confidence **before** the answer, get a reading on both. It says which of two paragraphs written for this page is stronger and why — never that anyone improves. |
+| `WorkflowDemo` | FastLane. Six handoffs and three chasing loops resolve into an ordered row with owner and next action attached. No claim about time or effort saved. |
+| `PivotDemo` | The Golden Hour. Drag the question from the gig-economy framing to the first-response one. The network is deliberately held still — only the framing moves. The window carries no units, because the story claims the gap exists, not how long it lasts. |
+
+Paarth carries no interaction, by instruction: keep the story concise and
+invent nothing the project work does not support.
 
 ## Motion rules
 

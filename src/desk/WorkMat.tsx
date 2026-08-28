@@ -1,21 +1,26 @@
 import { useRef, useState } from "react";
-import { credix, investigations, stories, type Story } from "../data/portfolio";
+import { credix, investigations } from "../data/portfolio";
 import { mix, range, useScrub } from "../lib/scrub";
 
 /**
  * The cutting mat.
  *
- * A self-healing mat, ruled and numbered down its edge, with the work laid out
- * on it. The mat is a plane in perspective: it comes in steeply tilted, lies
- * flat through the middle of the scroll — which is where everything on it is
- * meant to be read — and tilts away again as it leaves.
+ * A self-healing mat, ruled and numbered down its edge, carrying the work that
+ * is still open. It is a plane in perspective: it comes in steeply tilted,
+ * lies flat through the middle of the scroll — which is where everything on it
+ * is meant to be read — and tilts away again as it leaves.
  *
- * The whole thing is one scrubbed pin. Scroll position is the playhead: the
- * plane's travel and its tilt are both read straight off progress.
+ * The four finished stories used to sit here too. They moved into normal flow
+ * once they carried interactions, because a control on a plane that is tilting
+ * and travelling under the cursor is a thing to fight rather than use. What is
+ * left is the unfinished half, which suits the surface: nothing on the mat has
+ * been cut out yet.
+ *
+ * The whole thing is one scrubbed pin. Scroll position is the playhead.
  */
 
-const PLANE_HEIGHT = 2260;
-const RULER_MARKS = 26;
+const PLANE_HEIGHT = 690;
+const RULER_MARKS = 8;
 
 export function WorkMat({ reduced }: { reduced: boolean }) {
   const section = useRef<HTMLDivElement>(null);
@@ -23,7 +28,7 @@ export function WorkMat({ reduced }: { reduced: boolean }) {
 
   useScrub(section, setP, {
     start: "top top",
-    end: `+=${PLANE_HEIGHT}`,
+    end: `+=${PLANE_HEIGHT + 260}`,
     scrub: 1,
     pin: true,
     enabled: !reduced,
@@ -37,15 +42,16 @@ export function WorkMat({ reduced }: { reduced: boolean }) {
   const tiltOut = range(p, 0.82, 1);
   const rotateX = mix(24, 0, tiltIn) + mix(0, -15, tiltOut);
 
-  // The plane travels from just below the stage's top edge to the point where
-  // its own bottom edge sits mid-stage — so it leaves the frame as an object
-  // with an edge, not by running out of content.
-  const y = mix(110, -(PLANE_HEIGHT - 620), p);
+  // Now that the plane is shorter than the stage it passes through rather than
+  // scrolling past: it enters from below with its top edge showing, sits
+  // centred while it is flat, and leaves with its bottom edge showing. Both
+  // edges are visible at some point, which is what makes it read as an object.
+  const y = mix(620, -(PLANE_HEIGHT - 220), p);
 
   return (
     <section
-      id="work"
       ref={section}
+      aria-label="Currently investigating"
       className="relative h-screen overflow-hidden"
       style={{ perspective: "2100px", perspectiveOrigin: "50% 44%" }}
     >
@@ -58,7 +64,23 @@ export function WorkMat({ reduced }: { reduced: boolean }) {
         }}
       >
         <Ruler />
-        <MatSurface />
+        <div className="absolute inset-y-0 right-0 left-14">
+          <SectionTab
+            top={40}
+            label="Currently investigating."
+            note="The next stories aren't finished yet"
+          />
+
+          <CredixCard />
+          {investigations.map((item, i) => (
+            <InvestigationCard key={item.title} item={item} index={i} />
+          ))}
+
+          {/* Printed on the mat itself, bottom right, the way a maker's mark is. */}
+          <p className="hand absolute right-8 bottom-8 text-[22px] text-chalk/55">
+            everything you do, do it with care.
+          </p>
+        </div>
       </div>
     </section>
   );
@@ -80,35 +102,6 @@ function Ruler() {
           <span className="mono text-[9px] text-paper/45">{i + 1}</span>
           <span className="h-px w-3 bg-paper/25" />
         </div>
-      ))}
-    </div>
-  );
-}
-
-/** Everything pinned to the mat, positioned on the plane. */
-function MatSurface() {
-  return (
-    <div className="absolute inset-y-0 right-0 left-14">
-      <SectionTab top={40} label="Things I noticed. Directions I took." note="Selected product stories · 04" />
-
-      {stories.map((story, i) => (
-        <StoryCard key={story.no} story={story} index={i} />
-      ))}
-
-      <SectionTab
-        top={1520}
-        label="Currently investigating."
-        note="The next stories aren't finished yet"
-      />
-
-      {/* Printed on the mat itself, bottom right, the way a maker's mark is. */}
-      <p className="hand absolute right-8 bottom-8 text-[22px] text-chalk/55">
-        everything you do, do it with care.
-      </p>
-
-      <CredixCard />
-      {investigations.map((item, i) => (
-        <InvestigationCard key={item.title} item={item} index={i} />
       ))}
     </div>
   );
@@ -136,74 +129,11 @@ function SectionTab({
   );
 }
 
-/** Where each story card sits on the plane, and how far off-square it landed. */
-const STORY_SEATS = [
-  { top: 120, left: "1%", width: "44%", rotate: -1.4 },
-  { top: 400, left: "52%", width: "44%", rotate: 1.1 },
-  { top: 760, left: "3%", width: "43%", rotate: 0.8 },
-  { top: 1010, left: "51%", width: "45%", rotate: -0.9 },
-];
-
-function StoryCard({ story, index }: { story: Story; index: number }) {
-  const seat = STORY_SEATS[index];
-  return (
-    <article
-      className="paper-plain absolute rounded-[6px] p-7 text-ink shadow-[0_26px_60px_-24px_rgba(0,0,0,.85)]"
-      style={{
-        top: seat.top,
-        left: seat.left,
-        width: seat.width,
-        transform: `rotate(${seat.rotate}deg)`,
-      }}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <span
-          className="font-display text-[52px] leading-none font-extrabold text-transparent"
-          style={{ WebkitTextStroke: "1px var(--color-rule)" }}
-        >
-          {story.no}
-        </span>
-        <span className="mono pt-3 text-right text-ink-soft">
-          {story.category}
-        </span>
-      </div>
-
-      <h3 className="mt-1 font-display text-[clamp(21px,2.3vw,32px)] leading-[1.05] font-bold tracking-[-0.014em]">
-        {story.title}
-      </h3>
-
-      <p className="mt-3 max-w-[46ch] font-body text-[17px] text-ink-soft italic">
-        {story.teaser}
-      </p>
-
-      <dl className="mt-5">
-        <Beat term="I noticed" value={story.noticed} />
-        <Beat term="I questioned" value={story.questioned} />
-        <Beat term="I built" value={story.built} />
-      </dl>
-
-      <p className="mono mt-5 text-ink-soft">
-        {story.links.map((l) => l.label).join(" · ")}
-      </p>
-    </article>
-  );
-}
-
-/** One line of the I NOTICED → I QUESTIONED → I BUILT spine. */
-function Beat({ term, value }: { term: string; value: string }) {
-  return (
-    <div className="grid grid-cols-[104px_1fr] items-start gap-4 border-t border-rule py-2.5">
-      <dt className="mono pt-1 text-pen">{term}</dt>
-      <dd className="font-body text-[15px] leading-[1.5]">{value}</dd>
-    </div>
-  );
-}
-
 function CredixCard() {
   return (
     <article
       className="paper-plain absolute rounded-[6px] p-7 text-ink shadow-[0_26px_60px_-24px_rgba(0,0,0,.85)]"
-      style={{ top: 1610, left: "1%", width: "50%", transform: "rotate(0.7deg)" }}
+      style={{ top: 150, left: "1%", width: "50%", transform: "rotate(0.7deg)" }}
     >
       <span className="mono inline-block border border-pen px-2 py-1 text-pen">
         {credix.status}
@@ -215,10 +145,7 @@ function CredixCard() {
       <p className="mt-3 font-body text-[16px]">{credix.body}</p>
       <div className="mt-5">
         {credix.pillars.map((pillar) => (
-          <div
-            key={pillar.no}
-            className="flex gap-4 border-t border-rule py-2.5"
-          >
+          <div key={pillar.no} className="flex gap-4 border-t border-rule py-2.5">
             <b className="mono pt-1 text-pen">{pillar.no}</b>
             <span className="font-body text-[15px]">{pillar.text}</span>
           </div>
@@ -229,8 +156,8 @@ function CredixCard() {
 }
 
 const INVESTIGATION_SEATS = [
-  { top: 1610, left: "55%", rotate: -1.2 },
-  { top: 1880, left: "55%", rotate: 1.4 },
+  { top: 150, left: "55%", rotate: -1.2 },
+  { top: 430, left: "55%", rotate: 1.4 },
 ];
 
 function InvestigationCard({
@@ -268,52 +195,19 @@ function InvestigationCard({
  */
 function WorkMatStatic() {
   return (
-    <section id="work" className="mat relative mx-[3%] rounded-[10px] px-6 py-16">
-      <StaticTab
-        label="Things I noticed. Directions I took."
-        note="Selected product stories · 04"
-      />
-      <div className="mt-10 grid gap-8 lg:grid-cols-2">
-        {stories.map((story) => (
-          <article
-            key={story.no}
-            className="paper-plain rounded-[6px] p-7 text-ink"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <span
-                className="font-display text-[52px] leading-none font-extrabold text-transparent"
-                style={{ WebkitTextStroke: "1px var(--color-rule)" }}
-              >
-                {story.no}
-              </span>
-              <span className="mono pt-3 text-right text-ink-soft">
-                {story.category}
-              </span>
-            </div>
-            <h3 className="mt-1 font-display text-[28px] leading-[1.05] font-bold">
-              {story.title}
-            </h3>
-            <p className="mt-3 font-body text-[17px] text-ink-soft italic">
-              {story.teaser}
-            </p>
-            <dl className="mt-5">
-              <Beat term="I noticed" value={story.noticed} />
-              <Beat term="I questioned" value={story.questioned} />
-              <Beat term="I built" value={story.built} />
-            </dl>
-            <p className="mono mt-5 text-ink-soft">
-              {story.links.map((l) => l.label).join(" · ")}
-            </p>
-          </article>
-        ))}
-      </div>
+    <section
+      aria-label="Currently investigating"
+      className="mat relative mx-[3%] rounded-[10px] px-6 py-16"
+    >
+      <header className="flex flex-wrap items-baseline justify-between gap-3 border-b border-paper/20 pb-3">
+        <h2 className="font-display text-[clamp(20px,2.6vw,34px)] font-bold text-paper">
+          Currently investigating.
+        </h2>
+        <span className="mono text-paper/50">
+          The next stories aren't finished yet
+        </span>
+      </header>
 
-      <div className="mt-16">
-        <StaticTab
-          label="Currently investigating."
-          note="The next stories aren't finished yet"
-        />
-      </div>
       <div className="mt-10 grid gap-8 lg:grid-cols-2">
         <article className="paper-plain rounded-[6px] p-7 text-ink">
           <span className="mono inline-block border border-pen px-2 py-1 text-pen">
@@ -360,17 +254,5 @@ function WorkMatStatic() {
         everything you do, do it with care.
       </p>
     </section>
-  );
-}
-
-/** The same heading as `SectionTab`, in flow instead of on the plane. */
-function StaticTab({ label, note }: { label: string; note: string }) {
-  return (
-    <header className="flex flex-wrap items-baseline justify-between gap-3 border-b border-paper/20 pb-3">
-      <h2 className="font-display text-[clamp(20px,2.6vw,34px)] font-bold text-paper">
-        {label}
-      </h2>
-      <span className="mono text-paper/50">{note}</span>
-    </header>
   );
 }

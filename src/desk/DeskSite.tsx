@@ -2,6 +2,7 @@ import { Filters } from "../art/Filters";
 import { useRefreshOnFonts } from "../lib/scrub";
 import { useSmoothScroll } from "../lib/smoothScroll";
 import { Beliefs } from "./Beliefs";
+import { CaseFiles } from "./CaseFiles";
 import { Footer } from "./Footer";
 import { Ledger } from "./Ledger";
 import { LookingFor } from "./LookingFor";
@@ -40,6 +41,7 @@ export function DeskSite({ reduced }: { reduced: boolean }) {
           <Notebook reduced={reduced} />
           <Beliefs reduced={reduced} />
           <WorkGallery reduced={reduced} />
+          <CaseFiles />
           <WorkMat reduced={reduced} />
           <Polaroid reduced={reduced} hangsFromMat />
           <Ledger reduced={reduced} />
