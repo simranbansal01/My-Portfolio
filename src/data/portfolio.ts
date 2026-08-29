@@ -20,7 +20,7 @@ export const identity = {
   roles: [
     "Finance executive.",
     "Systems thinker.",
-    "Product builder in the making.",
+    "Product builder.",
   ],
   roleStrip: "Finance executive · Systems thinker · Product builder",
   route: "Ambala → Toronto",
