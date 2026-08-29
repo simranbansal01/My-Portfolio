@@ -112,12 +112,12 @@ export function LookingFor() {
 }
 
 /**
- * The email button. Until an address is filled into the data it is a drawn
- * label rather than a link, so nothing on the page claims to go somewhere it
- * does not.
+ * The "let's chat!" button, wired to LinkedIn. Until the link is filled into
+ * the data it is a drawn label rather than a link, so nothing on the page
+ * claims to go somewhere it does not.
  */
 function CallToAction() {
-  const href = contact.links[0].href;
+  const href = contact.links.find((l) => l.label === "LinkedIn")?.href ?? "#";
   const shell =
     "hand relative mt-7 inline-block px-7 py-2.5 text-[24px] text-pen";
 

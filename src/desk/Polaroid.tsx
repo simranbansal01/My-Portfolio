@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { PolaroidArt } from "../art/Scenes";
 import { Thread } from "../art/Marks";
 import { identity } from "../data/portfolio";
 
@@ -109,7 +108,12 @@ export function Polaroid({
           style={{ transformOrigin: "50% -30%" }}
         >
           <div className="bg-board p-2">
-            <PolaroidArt className="w-full text-pen" />
+            <img
+              src="/simran.jpg"
+              alt="Simran Bansal"
+              draggable={false}
+              className="block aspect-square w-full object-cover"
+            />
           </div>
           <p className="hand mt-3 text-center text-[30px] leading-none text-pen">
             {identity.signature}

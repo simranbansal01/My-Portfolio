@@ -9,6 +9,7 @@ import { Annotations, MarginDoodles } from "./Margins";
 import { Nav } from "./Nav";
 import { Notebook } from "./Notebook";
 import { Polaroid } from "./Polaroid";
+import { Process } from "./Process";
 import { ProofMarquee } from "./ProofMarquee";
 import { Rails } from "./Rails";
 import { WorkGallery } from "./WorkGallery";
@@ -42,6 +43,7 @@ export function DeskSite({ reduced }: { reduced: boolean }) {
           <WorkGallery reduced={reduced} />
           <WorkMat reduced={reduced} />
           <Polaroid reduced={reduced} hangsFromMat={!reduced} />
+          <Process />
           <Ledger reduced={reduced} />
           <ProofMarquee reduced={reduced} />
           <LookingFor />
