@@ -115,7 +115,7 @@ export function ProjectPage({ story }: { story: Story }) {
                   <Mock />
                 </div>
                 <figcaption className="mono mt-3 text-center text-ink-soft">
-                  A drawing of the interface, not a screenshot
+                  A preview of the project
                 </figcaption>
               </figure>
             )

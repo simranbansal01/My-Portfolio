@@ -49,3 +49,13 @@
   font-display: swap;
   src: url('/fonts/caveat-normal-400-700.woff2') format('woff2');
 }
+
+/* The one display face — a heavy, soft-serifed cut used at poster size only,
+   for the "What I can do for you?" line at the centre of the process map. */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('/fonts/fraunces-normal-400-900.woff2') format('woff2');
+}

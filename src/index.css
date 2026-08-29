@@ -28,6 +28,7 @@
   --font-body: "Newsreader", Georgia, serif;
   --font-mono: "Space Mono", ui-monospace, "SF Mono", monospace;
   --font-hand: "Caveat", "Segoe Script", cursive;
+  --font-poster: "Fraunces", "Newsreader", Georgia, serif;
 }
 
 @layer base {
