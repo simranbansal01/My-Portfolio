@@ -220,33 +220,26 @@ function Note({ step, className }: { step: Step; className?: string }) {
 /** The brushed red disc with the title on it. */
 function Hub() {
   return (
-    <div className="relative">
-      <svg
-        viewBox="0 0 240 224"
-        aria-hidden="true"
-        focusable="false"
-        className="w-full"
-        style={{ filter: "url(#wobble)" }}
+    <div className="flex flex-col items-center px-4 text-center">
+      <p
+        className="text-paper"
+        style={{
+          fontFamily: "var(--font-poster)",
+          fontWeight: 900,
+          fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 1',
+          fontSize: "clamp(28px, 4vw, 54px)",
+          lineHeight: 0.98,
+        }}
       >
-        <path
-          d="M122 8 C182 4 222 42 230 96 C238 150 214 198 152 210
-             C96 221 34 208 16 152 C-2 100 14 46 60 22
-             C80 12 100 10 122 8 Z"
-          fill="var(--color-pen)"
-        />
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-5 text-center">
-        <p className="hand text-[clamp(22px,3vw,42px)] leading-[0.92] font-bold text-paper">
-          What
-          <br />
-          I can do
-          <br />
-          for you?
-        </p>
-        <span className="mt-1 block w-24 text-pen-soft">
-          <Underline />
-        </span>
-      </div>
+        What
+        <br />
+        I can do
+        <br />
+        for you?
+      </p>
+      <span className="mt-2 block w-28 text-pen-soft">
+        <Underline />
+      </span>
     </div>
   );
 }
@@ -353,7 +346,7 @@ export function Process() {
       <div className="relative mx-auto my-2 hidden aspect-[2/3] w-full max-w-[780px] lg:block">
         <Connectors />
 
-        <div className="absolute top-1/2 left-1/2 w-[40%] -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute top-1/2 left-1/2 w-[44%] -translate-x-1/2 -translate-y-1/2">
           <Hub />
         </div>
 
