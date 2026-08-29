@@ -1,0 +1,51 @@
+/*
+ * Self-hosted type. The site is a typographic object, so the fonts are part
+ * of the build rather than a third-party request that may or may not arrive:
+ * no render-blocking round trip to a CDN, no flash of the wrong face, and no
+ * font request leaving the visitor's browser to anyone but this origin.
+ *
+ * Latin subsets only — that is the whole of the copy.
+ *
+ * Headings are set in Arial, a system face, so there is nothing to
+ * self-host for them and nothing declared here.
+ */
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/newsreader-italic-300-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/newsreader-normal-300-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/space-mono-normal-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/space-mono-normal-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/caveat-normal-400-700.woff2') format('woff2');
+}

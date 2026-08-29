@@ -1,7 +1,9 @@
 # Simran Bansal — Portfolio
 
-Desktop-first, playful-editorial portfolio site. Vite + React + TypeScript + Tailwind v4,
-with GSAP/ScrollTrigger, Framer Motion and Lenis driving the motion.
+A dark desk with a red-bezel notebook lying on it, a cutting mat holding the
+work, and an auditor's red pen over everything. Vite + React + TypeScript +
+Tailwind v4, with GSAP/ScrollTrigger driving the motion and Lenis smoothing the
+scroll.
 
 ```bash
 npm install
@@ -10,39 +12,163 @@ npm run build    # typecheck + production build to dist/
 npm run lint     # oxlint
 ```
 
+## The object
+
+Top to bottom, the page is one argument:
+
+| | |
+| --- | --- |
+| **Notebook** | A red moulded case holding two paper pages — the hero on grid paper, the editorial intro in columns — separated by a ribbon bookmark. |
+| **Notes** | Three torn papers that slide out over the case's bottom edge and spread across the desk on scrub. |
+| **Gallery** | "My work." The four concepts as framed mockups, scattered across the desk and drifting at different rates so the wall separates into layers. Titled to match the moodboard below it, so the finished half and the open half read as one pair. |
+| **Gallery tiles** | Every tile is a door. Clicking one opens that project's own page at `/work/<slug>`, where the story, its interaction and its links live. |
+| **Moodboard** | The cutting mat in perspective, carrying the work that is still open — sheets torn off a notepad, pinned and taped to the board at the angles they landed. It tilts in, lies flat through the middle of the scroll, and tilts away as it leaves. |
+| **Polaroid** | Hangs off the mat's bottom edge on a dashed red thread. Draggable; springs back. |
+| **Ledger** | The career, reconciled one line at a time. Rows tick off in red as the scroll passes through them. |
+| **Proof** | The only verified figures on the site, run as a printed band. |
+| **What I look for** | A checklist the visitor ticks. Ticking a line strikes it through and brings the drawing beside it into view. |
+
+Fixed rails of red stamps run down both margins, chalk objects drift on scroll
+outside the content column, and red annotations drift on the cursor.
+
 ## Layouts
 
-The desktop and mobile experiences are two separate component trees, chosen by
-`useIsMobileLayout()` in `src/App.tsx` — the phone layout is not the desktop one reflowed.
+Desktop and phone are two separate component trees, chosen by
+`useIsMobileLayout()` in `src/App.tsx`. The phone layout is not the desktop one
+reflowed — there is no margin on a phone, so the rails, chalk objects,
+annotations and cursor parallax are not rendered at all, and nothing is pinned.
 
-| | Desktop (`src/desktop/`) | Mobile (`src/mobile/`) |
+| | Desktop (`src/desk/`) | Phone (`src/mobile/`) |
 | --- | --- | --- |
-| Scroll | Lenis smooth scroll on the GSAP ticker | native scrolling |
-| Beliefs | section pins, three cards translate on x, then unpins | scroll-snap belt driven by the thumb |
-| Stack | infinite marquee, pauses on hover, reverses on scroll-up | contact-sheet grid of badges |
-| Work | full-bleed cards, scale + opacity reveal, hover reveals the live link | tap-to-open accordion |
-| Position | fixed numbered rail, 18 stops, click to jump | bottom bar with progress line and chapter chips |
+| Scroll | Lenis on the GSAP ticker | native scrolling |
+| Nav | three words, hover draws a pen ring and pops a doodle | a row of tap targets |
+| Notes | scrubbed spread across the desk | dealt down the page, each on its own angle |
+| Work | scattered tiles linking out, then the pinned mat | tiles stacked, the mat narrowed to a strip |
+| Margins | rails, chalk objects, red annotations | none |
+
+## Pages
+
+Five URLs — the desk at `/`, and one per project at `/work/<slug>`
+(`corner-shelf`, `fastlane`, `paarth`, `golden-hour`). `src/lib/router.ts` is a
+~100-line history-API router; with five static routes, no nested layouts and no
+loaders, a routing library would be weight without work. What it does do:
+
+- `Link` stays a real `<a href>`, so middle-click, cmd-click and "copy link
+  address" behave; only plain left clicks are intercepted.
+- Scroll position is saved per path and restored on Back. This has to go
+  through Lenis (`scrollToY`) — a native `scrollTo` is overridden on Lenis's
+  next frame — and it retries for a beat, because the desk's pinned sections
+  only reach full height once ScrollTrigger has built its spacers.
+- `history.scrollRestoration` is set to `manual`, since the browser's own
+  restoration fights the above.
+- A parent that does not own the document title passes `null` rather than the
+  current value: parent effects run after child effects and would otherwise
+  stamp a stale title over the one the page just set.
+
+Deep links work in production because `netlify.toml` already serves
+`index.html` for any path.
+
+## Previews
+
+A project page embeds the deployed product where there is one, and falls back
+to the drawing where there isn't. `livePreviewHref()` decides: only a **Live**
+destination qualifies.
+
+The two Claude artifact links can never be embedded — claude.ai serves
+`frame-ancestors 'self'`, and the sandbox origin its CSP names 404s without the
+owner's session. Those are also the authenticated `/code/artifact/` view rather
+than public share links, so they may not open for a visitor at all.
+
+`LivePreview` renders the site at a full desktop width and scales it down (the
+scale is measured in JS — CSS cannot divide a length by a length to get the
+unitless number `scale()` needs). It loads lazily, stays inert until clicked so
+a scaled iframe cannot swallow the page scroll, and sandboxes without
+`allow-top-navigation` so an embedded page cannot navigate the portfolio away.
+A fallback sits *behind* the frame: it is what you see while the product loads,
+and what you are left with if it never does, since a refused frame cannot be
+detected cross-origin.
+
+## The three interactions
+
+`src/desk/demos/`, shown on the project pages — each one runs the concept's
+own argument rather than describing it. All three are bounded the same way: they demonstrate what the
+concept *proposes*, and assert nothing about how it performed.
+
+| | |
+| --- | --- |
+| `VerdictDemo` | Corner Shelf. Judge two sample outputs, state your confidence **before** the answer, get a reading on both. It says which of two paragraphs written for this page is stronger and why — never that anyone improves. |
+| `WorkflowDemo` | FastLane. Six handoffs and three chasing loops resolve into an ordered row with owner and next action attached. No claim about time or effort saved. |
+| `PivotDemo` | The Golden Hour. Drag the question from the gig-economy framing to the first-response one. The network is deliberately held still — only the framing moves. The window carries no units, because the story claims the gap exists, not how long it lasts. |
+
+Paarth carries no interaction, by instruction: keep the story concise and
+invent nothing the project work does not support.
 
 ## Motion rules
 
-- Every scripted transition sits between 300ms and 800ms (`src/lib/motion.ts`). The only
-  continuous motion is the marquee loop and the sticker springs.
-- `prefers-reduced-motion` is read once in `App` and threaded through every component:
-  Lenis and ScrollTrigger never initialise, the hero renders at its resting state, the
-  stickers stop tracking the cursor and the marquee holds still. `src/index.css` also
-  clamps any remaining CSS animation.
-- The hero title is split per character (40ms stagger, `y: 100% → 0`), the statement per
-  word; both live in `src/components/SplitText.tsx`.
+- **Scroll position is the playhead.** Everything scroll-driven is scrubbed,
+  never triggered — `src/lib/scrub.ts` exists so no component reaches for a
+  fire-once reveal. A reveal that fires at a threshold makes the page feel like
+  a slideshow instead of an object you are moving through.
+- Every scripted transition sits between 300ms and 800ms. The only continuous
+  loops are the proof marquee and the rotating role line, which is a clock
+  rather than a position.
+- Cursor parallax is always lerped and never 1:1.
+- `prefers-reduced-motion` is read once in `App` and threaded through every
+  component: Lenis and ScrollTrigger never initialise, the mat renders flat in
+  document order, the notes render spread, the ledger renders ticked, and the
+  annotations hold still. `src/index.css` clamps anything left.
 
-## Assets
+## Art
 
-The cutout stickers (`src/assets/stickers/`) and marquee badges (`src/assets/badges/`) are
-generated, not hand-drawn. `scripts/gen_assets.py` rasterises them from signed distance
-fields with the Python standard library only:
+Everything drawn is original SVG, authored in `src/art/`:
 
-```bash
-python3 scripts/gen_assets.py
-```
+| | |
+| --- | --- |
+| `Filters.tsx` | The `feTurbulence` displacement filters that give straight paths a pen wobble, chalk grain and stamped-ink erosion. |
+| `sealGlyphs.tsx` / `Seals.tsx` | The rail stamps — an auditor's block: ticks, T-accounts, a magnifier over a line item, an exception flag, a balance. Glyphs are knocked out of the ink, the way a real stamp works. |
+| `Doodles.tsx` | Chalk desk objects for the margins. All stroke, no fill. |
+| `Marks.tsx` | Red-pen marks: the hover ring, checkbox and tick, strike-through, underline, the rough frame, the hanging thread. |
+| `Scenes.tsx` | The three line drawings. |
+| `Mockups.tsx` | Concept UI, used on the gallery tiles and on the two project pages with nothing deployed to embed. **Not screenshots** — none of the four shipped. They draw the interface each concept describes, and are held to the guardrails strictly: no user counts, no adoption, no revenue, no percentages, no testimonials, no named people. Every value on screen is interface scaffolding — a step, a status, a day of the week — never a claim about how the concept performed. |
 
-Content lives in one place: `src/data/portfolio.ts`, including the 18 chapter anchors the
-progress rail points at.
+Paper, grid, ruled, graph, kraft, the board, the bezel and the mat are all CSS —
+gradients and clip-paths, no raster textures, so they stay crisp at any zoom.
+
+## Type
+
+Headings are Arial — a system face, so there is nothing to load for them. The
+stack behind it is metric-compatible (Helvetica, then Liberation Sans / Arimo
+on Linux and Android), so a heading keeps its measure on a machine without
+Arial itself.
+
+The rest is self-hosted in `public/fonts` and declared in `src/fonts.css`:
+Newsreader (body), Space Mono (labels), Caveat (hand). Latin subsets only. The
+site is a typographic object, so those fonts are part of the build rather than
+a CDN request that may or may not arrive.
+
+The rotating role line under the name is a fixed-height mask, and each role
+parks outside it by a percentage of its own line box. That margin is set wide
+enough to clear any face — too tight and the next role's ascenders show along
+the bottom edge, which is what happens if it is tuned to one font's metrics.
+
+## Content
+
+All copy lives in `src/data/portfolio.ts`, transcribed from the content master
+(`Simran_Bansal_Portfolio_Content_Master.docx`). That file carries the
+guardrails as comments — read them before editing copy. In short:
+
+- Simran is never "Founder" of The Credix. The status reads
+  **Building · Independent product**.
+- Source currencies are preserved. CAD $60M stays CAD.
+- No invented research findings, user counts, business impact or metrics.
+  `proof` holds the only verified numbers on the site.
+- Golden Hour: the broader research was shared across the team; the reframe and
+  solution direction are Simran's.
+- The two exploratory concepts stay exploratory.
+
+### Links are still placeholders
+
+Every `href` in `portfolio.ts` is `"#"` — email, LinkedIn, GitHub, résumé, and
+every PRD / Artifact / Live / Repo. The UI renders a `"#"` destination as plain
+text rather than as a dead link, so filling in the data is the only change
+needed to turn them live.
