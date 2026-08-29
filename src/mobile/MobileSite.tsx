@@ -167,7 +167,8 @@ function MobileRole({ reduced }: { reduced: boolean }) {
           key={role}
           aria-hidden={i !== index}
           className="absolute inset-x-0 top-0 transition-transform duration-[620ms] ease-[cubic-bezier(.22,1,.36,1)]"
-          style={{ transform: `translateY(${(i - index) * 120}%)` }}
+          // 1.42em mask over a 1.15em line box: clear it by more than 124%.
+          style={{ transform: `translateY(${(i - index) * 132}%)` }}
         >
           {role}
         </span>

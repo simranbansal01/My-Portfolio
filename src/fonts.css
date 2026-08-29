@@ -5,23 +5,10 @@
  * font request leaving the visitor's browser to anyone but this origin.
  *
  * Latin subsets only — that is the whole of the copy.
+ *
+ * Headings are set in Arial, a system face, so there is nothing to
+ * self-host for them and nothing declared here.
  */
-
-@font-face {
-  font-family: 'Bodoni Moda';
-  font-style: italic;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url('/fonts/bodoni-moda-italic-400-900.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Bodoni Moda';
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url('/fonts/bodoni-moda-normal-400-900.woff2') format('woff2');
-}
 
 @font-face {
   font-family: 'Newsreader';

@@ -304,7 +304,7 @@ export const contact = {
 
 export const colophon = [
   "The Simran Times · Content edition",
-  "Set in Bodoni Moda & Newsreader",
+  "Set in Arial & Newsreader",
   "Annotated in red",
 ] as const;
 

@@ -136,10 +136,20 @@ gradients and clip-paths, no raster textures, so they stay crisp at any zoom.
 
 ## Type
 
-Self-hosted in `public/fonts` and declared in `src/fonts.css`: Bodoni Moda
-(display), Newsreader (body), Space Mono (labels), Caveat (hand). Latin subsets
-only. The site is a typographic object, so the fonts are part of the build
-rather than a CDN request that may or may not arrive.
+Headings are Arial — a system face, so there is nothing to load for them. The
+stack behind it is metric-compatible (Helvetica, then Liberation Sans / Arimo
+on Linux and Android), so a heading keeps its measure on a machine without
+Arial itself.
+
+The rest is self-hosted in `public/fonts` and declared in `src/fonts.css`:
+Newsreader (body), Space Mono (labels), Caveat (hand). Latin subsets only. The
+site is a typographic object, so those fonts are part of the build rather than
+a CDN request that may or may not arrive.
+
+The rotating role line under the name is a fixed-height mask, and each role
+parks outside it by a percentage of its own line box. That margin is set wide
+enough to clear any face — too tight and the next role's ascenders show along
+the bottom edge, which is what happens if it is tuned to one font's metrics.
 
 ## Content
 

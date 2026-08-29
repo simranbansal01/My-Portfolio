@@ -20,7 +20,11 @@
   --color-pen-soft: #d8455d;
   --color-chalk: #e8e6df;
 
-  --font-display: "Bodoni Moda", Georgia, serif;
+  /* Arial is a system face — nothing to download. The stack after it is
+     metric-compatible: Helvetica on Apple, Liberation Sans / Arimo on
+     Linux and Android, so headings keep their measure everywhere. */
+  --font-display:
+    Arial, "Helvetica Neue", Helvetica, "Liberation Sans", Arimo, sans-serif;
   --font-body: "Newsreader", Georgia, serif;
   --font-mono: "Space Mono", ui-monospace, "SF Mono", monospace;
   --font-hand: "Caveat", "Segoe Script", cursive;

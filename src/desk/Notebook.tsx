@@ -143,7 +143,12 @@ function RotatingRole({ reduced }: { reduced: boolean }) {
           aria-hidden={i !== index}
           className="absolute inset-x-0 top-0 whitespace-nowrap transition-transform duration-[620ms] ease-[cubic-bezier(.22,1,.36,1)]"
           style={{
-            transform: `translateY(${(i - index) * 110}%)`,
+            // Each role parks a clear line outside the mask. The offset is a
+            // percentage of the line box (1.1em) and the mask is 1.38em, so
+            // anything under 126% leaves the next role's ascenders showing
+            // along the bottom edge — which face is set decides how far they
+            // reach, so the margin is taken here rather than tuned per font.
+            transform: `translateY(${(i - index) * 135}%)`,
           }}
         >
           {role}
