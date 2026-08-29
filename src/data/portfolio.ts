@@ -295,9 +295,8 @@ export const contact = {
   ],
   cta: "let's chat!",
   links: [
-    { label: "Email", href: "#" },
-    { label: "LinkedIn", href: "#" },
-    { label: "GitHub", href: "#" },
+    { label: "Email", href: "mailto:simranbansal1301@gmail.com" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/sbansal02/" },
     { label: "Résumé", href: "#" },
   ],
 } as const;
