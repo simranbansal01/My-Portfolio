@@ -44,7 +44,7 @@ export function WorkGallery({ reduced }: { reduced: boolean }) {
       id="work"
       ref={section}
       aria-label="Selected product stories"
-      className="relative mx-auto hidden h-[124vh] max-w-[1280px] px-4 lg:block lg:px-14"
+      className="relative mx-auto mt-[22vh] hidden h-[124vh] max-w-[1280px] px-4 lg:block lg:px-14"
     >
       {stories.map((story, i) => {
         const seat = SEATS[i];

@@ -44,7 +44,7 @@ export function Beliefs({ reduced }: { reduced: boolean }) {
   return (
     <div
       ref={section}
-      className="relative z-20 -mt-[20vh] h-[40vh] px-4 md:-mt-[22vh] md:h-[46vh] lg:px-20"
+      className="relative z-20 -mt-[20vh] h-[50vh] px-4 md:-mt-[22vh] md:h-[56vh] lg:px-20"
     >
       <div className="relative mx-auto h-full max-w-[1120px]">
         {beliefs.map((belief, i) => {
