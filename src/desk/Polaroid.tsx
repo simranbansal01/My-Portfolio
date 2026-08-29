@@ -145,22 +145,16 @@ export function Polaroid({
           hides ? "w-[240px] overflow-hidden" : "",
           reduced ? "" : "grabbable touch-none",
         ].join(" ")}
-        style={
-          hides
-            ? {
-                height: SLOT_H,
-                backgroundColor: "#120f09",
-                boxShadow:
-                  "inset 0 26px 30px -18px rgba(0,0,0,.95), inset 0 -30px 34px -20px rgba(0,0,0,.9)",
-              }
-            : undefined
-        }
+        // Transparent — it only clips. The board shows through it unchanged.
+        style={hides ? { height: SLOT_H } : undefined}
       >
-        {/* The ledge the polaroid is tucked behind. */}
+        {/* The soft shadow of the edge it is tucked behind — no hard line, just
+            a darkening at the top so the clipped frame reads as "under
+            something" rather than cut off. */}
         {hides && (
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[5px] bg-[#1b1712] shadow-[0_12px_20px_-6px_rgba(0,0,0,.92)]"
+            className="pointer-events-none absolute inset-x-0 top-0 z-20 h-6 bg-gradient-to-b from-black/55 to-transparent"
           />
         )}
 
