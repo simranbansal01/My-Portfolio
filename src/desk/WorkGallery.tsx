@@ -43,45 +43,73 @@ export function WorkGallery({ reduced }: { reduced: boolean }) {
     <section
       id="work"
       ref={section}
-      aria-label="Selected product stories"
-      className="relative mx-auto mt-[22vh] hidden h-[124vh] max-w-[1280px] px-4 lg:block lg:px-14"
+      aria-labelledby="work-heading"
+      className="relative mx-auto mt-[22vh] hidden max-w-[1280px] px-4 lg:block lg:px-14"
     >
-      {stories.map((story, i) => {
-        const seat = SEATS[i];
-        return (
-          <figure
-            key={story.no}
-            className="absolute will-change-transform"
-            style={{
-              left: seat.left,
-              top: seat.top,
-              width: seat.width,
-              zIndex: seat.z,
-              transform: reduced
-                ? `rotate(${seat.rotate}deg)`
-                : `translate3d(0, ${-travel * seat.depth * 260}px, 0) rotate(${seat.rotate}deg)`,
-            }}
-          >
-            <Tile story={story} />
-          </figure>
-        );
-      })}
+      <GalleryHeading />
 
-      {/* The scrap pinned in the middle of the spread. */}
-      <div
-        className="paper-ruled torn-both absolute top-1/2 left-1/2 z-10 w-[260px] -translate-x-1/2 -translate-y-1/2 px-6 py-7 shadow-[0_18px_44px_-18px_rgba(0,0,0,.8)]"
-        style={{
-          transform: reduced
-            ? "translate(-50%, -50%) rotate(-2deg)"
-            : `translate(-50%, calc(-50% + ${mix(26, -26, range(p, 0, 1))}px)) rotate(-2deg)`,
-        }}
-      >
-        <p className="hand text-[27px] leading-[1.2] font-semibold text-ink">
-          Four concepts. None of them shipped. All of them started as a
-          question.
-        </p>
+      {/* The tiles hang off this box, so the heading above stays in flow. Its
+          height is the tiles' spacing — the seats are percentages of it, and
+          shrinking it slides the bottom row up into the top one rather than
+          trimming any slack off the end. The gap to the next section is the
+          mat's lead-in, not this. */}
+      <div className="relative h-[124vh]">
+        {stories.map((story, i) => {
+          const seat = SEATS[i];
+          return (
+            <figure
+              key={story.no}
+              className="absolute will-change-transform"
+              style={{
+                left: seat.left,
+                top: seat.top,
+                width: seat.width,
+                zIndex: seat.z,
+                transform: reduced
+                  ? `rotate(${seat.rotate}deg)`
+                  : `translate3d(0, ${-travel * seat.depth * 260}px, 0) rotate(${seat.rotate}deg)`,
+              }}
+            >
+              <Tile story={story} />
+            </figure>
+          );
+        })}
+
+        {/* The scrap pinned in the middle of the spread. */}
+        <div
+          className="paper-ruled torn-both absolute top-1/2 left-1/2 z-10 w-[260px] -translate-x-1/2 -translate-y-1/2 px-6 py-7 shadow-[0_18px_44px_-18px_rgba(0,0,0,.8)]"
+          style={{
+            transform: reduced
+              ? "translate(-50%, -50%) rotate(-2deg)"
+              : `translate(-50%, calc(-50% + ${mix(26, -26, range(p, 0, 1))}px)) rotate(-2deg)`,
+          }}
+        >
+          <p className="hand text-[27px] leading-[1.2] font-semibold text-ink">
+            Four concepts. None of them shipped. All of them started as a
+            question.
+          </p>
+        </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * The section's title. Set to match the mat's heading exactly, so the two
+ * halves of the work — what is finished and what is still open — read as the
+ * same kind of thing rather than as two unrelated designs.
+ */
+function GalleryHeading() {
+  return (
+    <header className="flex flex-wrap items-baseline justify-between gap-3 border-b border-paper/20 pb-3">
+      <h2
+        id="work-heading"
+        className="font-display text-[clamp(20px,2.6vw,34px)] font-bold text-paper"
+      >
+        My work.
+      </h2>
+      <span className="mono text-paper/50">Pick one up to read it</span>
+    </header>
   );
 }
 
@@ -125,11 +153,21 @@ function Tile({ story }: { story: Story }) {
  */
 export function WorkGalleryMobile() {
   return (
-    <section
-      id="work"
-      aria-label="Selected product stories"
-      className="px-6 py-4"
-    >
+    <section id="work" aria-labelledby="work-heading-m" className="px-6 py-4">
+      {/* Stacked rather than side by side — there is no room for a right
+          column on a phone, and the note reads as a caption under the title. */}
+      <header className="mb-8 border-b border-paper/20 pb-3">
+        <h2
+          id="work-heading-m"
+          className="font-display text-[24px] leading-tight font-bold text-paper"
+        >
+          My work.
+        </h2>
+        <span className="mono mt-2 block text-paper/50">
+          Tap one to read it
+        </span>
+      </header>
+
       <div className="mx-auto flex max-w-[400px] flex-col gap-9">
         {stories.map((story, i) => (
           <figure

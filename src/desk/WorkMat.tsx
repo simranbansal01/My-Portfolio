@@ -50,7 +50,12 @@ export function WorkMat({ reduced }: { reduced: boolean }) {
   // The plane is shorter than the stage, so it passes through: in from below
   // with its top edge showing, centred while flat, out with its bottom edge
   // showing. Seeing both edges is what makes it read as an object.
-  const y = mix(620, -(PLANE_HEIGHT - 220), p);
+  //
+  // The lead-in is only as deep as it takes to read the top edge arriving.
+  // Any deeper and the gallery's last tile leaves the screen before the mat
+  // appears, which puts a blank board between the two sections instead of a
+  // seam between them.
+  const y = mix(120, -(PLANE_HEIGHT - 220), p);
 
   return (
     <section
