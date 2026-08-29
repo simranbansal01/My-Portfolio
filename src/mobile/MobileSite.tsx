@@ -19,6 +19,7 @@ import { Footer } from "../desk/Footer";
 import { Ledger } from "../desk/Ledger";
 import { LookingFor } from "../desk/LookingFor";
 import { Polaroid } from "../desk/Polaroid";
+import { Process } from "../desk/Process";
 import { ProofMarquee } from "../desk/ProofMarquee";
 import { WorkGalleryMobile } from "../desk/WorkGallery";
 
@@ -47,6 +48,7 @@ export function MobileSite({ reduced }: { reduced: boolean }) {
           <WorkGalleryMobile />
           <MobileWork />
           <Polaroid reduced={reduced} />
+          <Process />
           <Ledger reduced={reduced} />
           <ProofMarquee reduced={reduced} />
           <LookingFor />
