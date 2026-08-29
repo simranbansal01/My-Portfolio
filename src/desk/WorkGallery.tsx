@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { MOCKUP_BY_NO } from "../art/mockupIndex";
-import { stories, type Story } from "../data/portfolio";
+import { galleryNote, stories, type Story } from "../data/portfolio";
 import { Link } from "../components/Link";
 import { mix, range, useScrub } from "../lib/scrub";
 
@@ -85,8 +85,7 @@ export function WorkGallery({ reduced }: { reduced: boolean }) {
           }}
         >
           <p className="hand text-[27px] leading-[1.2] font-semibold text-ink">
-            Four concepts. None of them shipped. All of them started as a
-            question.
+            {galleryNote}
           </p>
         </div>
       </div>

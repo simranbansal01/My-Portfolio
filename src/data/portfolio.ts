@@ -326,3 +326,7 @@ export const annotations = [
  */
 export const investigatingNote =
   "a small question with a suspiciously large rabbit hole.";
+
+/** The scrap pinned in the middle of the work gallery. */
+export const galleryNote =
+  "The questions changed. The instinct to investigate didn't.";
