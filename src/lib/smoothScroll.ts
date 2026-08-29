@@ -17,8 +17,11 @@ export function useSmoothScroll(enabled: boolean) {
     if (!enabled) return;
 
     const instance = new Lenis({
-      duration: 1.1,
-      wheelMultiplier: 0.9,
+      // The smooth scroll should track the input, not coast after it: a short
+      // glide, and a wheel step that covers a little more than native distance
+      // rather than less.
+      duration: 0.8,
+      wheelMultiplier: 1.1,
       touchMultiplier: 1.4,
       easing: (t) => 1 - Math.pow(1 - t, 3),
     });
