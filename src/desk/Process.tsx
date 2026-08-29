@@ -2,16 +2,16 @@ import { Arrow, Underline } from "../art/Marks";
 
 /**
  * "What I can do for you?" — the process poster, rebuilt from the reference
- * image as native page elements rather than a flat picture: taped paper notes
- * on the board, pen-drawn arrows, red margin notes, and the brushed title disc
- * at the centre.
+ * image as native page elements rather than a flat picture. Taped paper notes
+ * sit straight on the board, joined by pen-drawn arrows, with the brushed red
+ * title disc at the centre and the red margin notes around the edge.
  *
- * Desktop lays the seven steps out as the reference does — a ring around the
- * disc. A phone has no room for a ring, so the same steps run there as one
- * numbered column with an arrow between each.
+ * Desktop keeps the reference's arrangement: a tall portrait ring of seven
+ * steps around the disc, in the same seats. A phone has no room for a ring,
+ * so there the steps run as one numbered column, an arrow between each.
  *
  * Strings are transcribed from the reference image. Its header and footer
- * lines are dropped on purpose: some of them contradict the site's own copy.
+ * lines are dropped on purpose — some of them contradict the site's own copy.
  */
 
 type IconId =
@@ -23,86 +23,55 @@ type IconId =
   | "chart"
   | "gears";
 
-type Step = {
-  no: string;
-  title: string;
-  icon: IconId;
-  /** The red margin note the reference pairs with this step, if any. */
-  note?: string;
-  /** Which way that note is set beside the step in the ring. */
-  noteSide: "left" | "right" | "down";
-};
+type Step = { no: string; title: string; icon: IconId };
 
 const STEPS: readonly Step[] = [
-  { no: "01", title: "Problem Discovery", icon: "lens", noteSide: "right" },
-  {
-    no: "02",
-    title: "Research & Insights",
-    icon: "docs",
-    note: "Users. Data. Patterns. Insights.",
-    noteSide: "right",
-  },
-  {
-    no: "03",
-    title: "Product Strategy & Prioritisation",
-    icon: "signpost",
-    noteSide: "right",
-  },
-  {
-    no: "04",
-    title: "PRD & Product Execution",
-    icon: "clipboard",
-    note: "From problem to plan.",
-    noteSide: "right",
-  },
-  {
-    no: "05",
-    title: "Building & Iterating",
-    icon: "laptop",
-    note: "Build. Test. Iterate.",
-    noteSide: "down",
-  },
-  {
-    no: "06",
-    title: "Product Impact & Metrics",
-    icon: "chart",
-    note: "Measure what matters.",
-    noteSide: "left",
-  },
-  {
-    no: "07",
-    title: "Process Improvement & Automation",
-    icon: "gears",
-    note: "Simpler processes. Greater impact.",
-    noteSide: "left",
-  },
+  { no: "01", title: "Problem Discovery", icon: "lens" },
+  { no: "02", title: "Research & Insights", icon: "docs" },
+  { no: "03", title: "Product Strategy & Prioritisation", icon: "signpost" },
+  { no: "04", title: "PRD & Product Execution", icon: "clipboard" },
+  { no: "05", title: "Building & Iterating", icon: "laptop" },
+  { no: "06", title: "Product Impact & Metrics", icon: "chart" },
+  { no: "07", title: "Process Improvement & Automation", icon: "gears" },
 ];
 
-const CLOSING = "Better Products. Bigger Impact.";
-
-/** Where each step sits in the ring, as a percentage of the square stage. */
+/** Seat of each step in the portrait ring, as a percentage of the stage. */
 const SEATS = [
-  { x: 50, y: 12 },
-  { x: 83, y: 28 },
-  { x: 86, y: 56 },
-  { x: 69, y: 82 },
-  { x: 40, y: 89 },
-  { x: 15, y: 60 },
-  { x: 18, y: 30 },
+  { x: 50, y: 20, r: -3 },
+  { x: 76, y: 30, r: 3 },
+  { x: 85, y: 50, r: -2 },
+  { x: 76, y: 71, r: 3 },
+  { x: 43, y: 75, r: -3 },
+  { x: 18, y: 57, r: 2 },
+  { x: 24, y: 30, r: -4 },
 ] as const;
 
-const NOTE_ROTATE = [-3, 3, -2, 3, -3, 2, -4] as const;
-
-/** A pen arrow dropped into the gap between two steps, pointing round the ring. */
-const ARROWS = [
-  { x: 68, y: 15, r: 12 },
-  { x: 89, y: 41, r: 66 },
-  { x: 82, y: 71, r: 116 },
-  { x: 55, y: 91, r: 162 },
-  { x: 25, y: 79, r: 210 },
-  { x: 12, y: 43, r: 258 },
-  { x: 32, y: 14, r: 306 },
+/**
+ * The curved connectors, drawn in one overlay whose viewBox (300×450) is the
+ * 2:3 of the stage, so these coordinates line up with the seats above. Each
+ * path runs from just outside one note to just outside the next, bowing away
+ * from the centre; the arrowhead is a marker that orients itself to the path.
+ */
+const CONNECTORS = [
+  "M180 100 Q216 84 206 112", // 01 → 02
+  "M232 164 Q272 150 250 198", // 02 → 03
+  "M252 254 Q282 270 244 292", // 03 → 04
+  "M196 322 Q176 356 160 332", // 04 → 05
+  "M102 314 Q64 326 74 290", // 05 → 06
+  "M58 228 Q40 196 70 164", // 06 → 07
+  "M100 116 Q120 80 122 104", // 07 → 01
 ] as const;
+
+/** Red margin notes, seated at the stage edge beside the step they comment on. */
+const MARGIN_NOTES = [
+  { text: "Users. Data. Patterns. Insights.", pos: { right: "-2%", top: "11%" }, align: "text-right", w: 116 },
+  { text: "Simpler processes. Greater impact.", pos: { left: "-2%", top: "22%" }, align: "text-left", w: 104 },
+  { text: "Measure what matters.", pos: { left: "-4%", top: "51%" }, align: "text-left", w: 78 },
+  { text: "Build. Test. Iterate.", pos: { left: "0%", top: "78%" }, align: "text-left", w: 80 },
+  { text: "From problem to plan.", pos: { right: "-2%", top: "67%" }, align: "text-right", w: 90 },
+] as const;
+
+const CLOSING = "Better Products. Bigger Impact.";
 
 const ICONS: Record<IconId, React.ReactNode> = {
   lens: (
@@ -223,13 +192,7 @@ function Tape({ red = false }: { red?: boolean }) {
   );
 }
 
-function Note({
-  step,
-  className,
-}: {
-  step: Step;
-  className?: string;
-}) {
+function Note({ step, className }: { step: Step; className?: string }) {
   return (
     <article
       className={[
@@ -266,14 +229,14 @@ function Hub() {
         style={{ filter: "url(#wobble)" }}
       >
         <path
-          d="M122 10 C176 6 214 44 226 92 C238 142 216 194 158 208
-             C104 221 40 210 18 158 C-3 108 12 52 58 26
-             C78 15 100 12 122 10 Z"
+          d="M122 8 C182 4 222 42 230 96 C238 150 214 198 152 210
+             C96 221 34 208 16 152 C-2 100 14 46 60 22
+             C80 12 100 10 122 8 Z"
           fill="var(--color-pen)"
         />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-        <p className="hand text-[clamp(20px,3.4vw,38px)] leading-[0.95] font-bold text-paper">
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-5 text-center">
+        <p className="hand text-[clamp(22px,3vw,42px)] leading-[0.92] font-bold text-paper">
           What
           <br />
           I can do
@@ -309,7 +272,7 @@ function Star() {
   );
 }
 
-function Steps() {
+function StepsFlag() {
   return (
     <svg
       viewBox="0 0 68 52"
@@ -333,38 +296,64 @@ function Steps() {
   );
 }
 
-const RING_NOTE_SIDE: Record<Step["noteSide"], string> = {
-  right: "left-full top-1 ml-3 w-[130px]",
-  left: "right-full top-1 mr-3 w-[130px] text-right",
-  down: "top-full left-1/2 mt-2 w-[130px] -translate-x-1/2 text-center",
-};
+/** The white curved arrows that run the ring, drawn over the whole stage. */
+function Connectors() {
+  return (
+    <svg
+      viewBox="0 0 300 450"
+      aria-hidden="true"
+      focusable="false"
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      style={{ color: "rgba(232,230,223,0.7)" }}
+    >
+      <defs>
+        <marker
+          id="proc-arrowhead"
+          viewBox="0 0 12 12"
+          refX="9"
+          refY="6"
+          markerWidth="7"
+          markerHeight="7"
+          orient="auto"
+        >
+          <path
+            d="M1 1 L11 6 L1 11"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </marker>
+      </defs>
+      {CONNECTORS.map((d) => (
+        <path
+          key={d}
+          d={d}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2.2}
+          strokeLinecap="round"
+          markerEnd="url(#proc-arrowhead)"
+        />
+      ))}
+    </svg>
+  );
+}
 
 export function Process() {
   return (
     <section
       aria-label="What I can do for you"
-      className="relative z-10 px-4 pt-10 pb-20 lg:px-24"
+      className="relative z-10 px-4 pt-10 pb-16 lg:px-12"
     >
       <h2 className="sr-only">What I can do for you</h2>
 
-      {/* desktop — the ring */}
-      <div className="relative mx-auto hidden aspect-square w-full max-w-[680px] lg:block">
-        {ARROWS.map((a, i) => (
-          <span
-            key={`arrow-${i}`}
-            aria-hidden="true"
-            className="absolute block text-paper/55"
-            style={{
-              left: `${a.x}%`,
-              top: `${a.y}%`,
-              transform: `translate(-50%,-50%) rotate(${a.r}deg)`,
-            }}
-          >
-            <Arrow />
-          </span>
-        ))}
+      {/* desktop — the portrait ring, sitting straight on the board */}
+      <div className="relative mx-auto my-2 hidden aspect-[2/3] w-full max-w-[780px] lg:block">
+        <Connectors />
 
-        <div className="absolute top-1/2 left-1/2 w-[37%] -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute top-1/2 left-1/2 w-[40%] -translate-x-1/2 -translate-y-1/2">
           <Hub />
         </div>
 
@@ -372,40 +361,54 @@ export function Process() {
           {STEPS.map((step, i) => (
             <li
               key={step.no}
-              className="absolute w-[26%] max-w-[176px]"
+              className="absolute w-[20%] max-w-[168px]"
               style={{
                 left: `${SEATS[i].x}%`,
                 top: `${SEATS[i].y}%`,
-                transform: `translate(-50%,-50%) rotate(${NOTE_ROTATE[i]}deg)`,
+                transform: `translate(-50%,-50%) rotate(${SEATS[i].r}deg)`,
               }}
             >
               <Note step={step} />
-              {step.note && (
-                <p
-                  className={[
-                    "hand absolute text-[15px] leading-tight text-pen",
-                    RING_NOTE_SIDE[step.noteSide],
-                  ].join(" ")}
-                >
-                  {step.note}
-                </p>
-              )}
             </li>
           ))}
         </ol>
 
-        <span className="absolute top-[4%] left-[3%] block h-10 w-10">
+        {MARGIN_NOTES.map((n) => (
+          <div
+            key={n.text}
+            className="absolute"
+            style={{ ...n.pos, width: n.w }}
+          >
+            <p
+              className={["hand text-[15px] leading-tight text-pen", n.align].join(
+                " ",
+              )}
+            >
+              {n.text}
+            </p>
+            <span className="mt-0.5 block w-3/4 text-pen">
+              <Underline />
+            </span>
+          </div>
+        ))}
+
+        <span className="absolute h-11 w-11" style={{ left: "13%", top: "13%" }}>
           <Star />
         </span>
-        <span className="absolute right-[2%] bottom-[3%] block h-9 w-12">
-          <Steps />
+        <span className="absolute h-10 w-14" style={{ left: "74%", top: "86%" }}>
+          <StepsFlag />
         </span>
-        <p className="hand absolute right-[1%] bottom-[9%] w-[120px] text-[15px] leading-tight text-pen">
-          {CLOSING}
-        </p>
+        <div className="absolute w-[118px]" style={{ right: "1%", top: "83%" }}>
+          <p className="hand text-right text-[15px] leading-tight text-pen">
+            {CLOSING}
+          </p>
+          <span className="mt-0.5 ml-auto block w-3/4 text-pen">
+            <Underline />
+          </span>
+        </div>
       </div>
 
-      {/* mobile — the column */}
+      {/* mobile — the same steps as one numbered column */}
       <div className="mx-auto max-w-[320px] lg:hidden">
         <div className="mx-auto w-[240px]">
           <Hub />
@@ -416,7 +419,7 @@ export function Process() {
               {i > 0 && (
                 <span
                   aria-hidden="true"
-                  className="my-3 block rotate-90 text-pen/55"
+                  className="my-3 block rotate-90 text-paper/60"
                 >
                   <Arrow />
                 </span>
@@ -425,11 +428,6 @@ export function Process() {
                 step={step}
                 className={["w-full", i % 2 ? "rotate-1" : "-rotate-1"].join(" ")}
               />
-              {step.note && (
-                <p className="hand mt-2 text-center text-[16px] leading-tight text-pen">
-                  {step.note}
-                </p>
-              )}
             </li>
           ))}
         </ol>
