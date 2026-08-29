@@ -86,7 +86,13 @@ export function Polaroid({
     <div
       className={[
         "relative z-20 flex justify-center pb-2",
-        hangsFromMat ? "-mt-[26vh]" : "mt-4",
+        // The thread starts where the mat ends, so the pull has to land on the
+        // plane's bottom edge. That edge sits a fixed ~217px below the pinned
+        // section's top — the plane's own travel is in pixels — while the
+        // section is a full viewport tall. A pull in vh therefore only lines up
+        // at one window height and drifts further off as the window grows; the
+        // calc holds it at every height.
+        hangsFromMat ? "mt-[calc(217px-100vh)]" : "mt-4",
       ].join(" ")}
     >
       <div className="relative flex flex-col items-center">
