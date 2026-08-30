@@ -297,15 +297,9 @@ export const contact = {
   links: [
     { label: "Email", href: "mailto:simranbansal1301@gmail.com" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/sbansal02/" },
-    { label: "Résumé", href: "#" },
+    { label: "Résumé", href: "/resume.pdf" },
   ],
 } as const;
-
-export const colophon = [
-  "The Simran Times · Content edition",
-  "Set in Arial, Newsreader & Fraunces",
-  "Annotated in red",
-] as const;
 
 /** `#` is the content master's stand-in for a destination not yet decided. */
 export function isPlaceholderHref(href: string): boolean {
