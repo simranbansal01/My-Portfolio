@@ -297,7 +297,7 @@ export const contact = {
   links: [
     { label: "Email", href: "mailto:simranbansal1301@gmail.com" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/sbansal02/" },
-    { label: "Résumé", href: "#" },
+    { label: "Résumé", href: "/resume.pdf" },
   ],
 } as const;
 

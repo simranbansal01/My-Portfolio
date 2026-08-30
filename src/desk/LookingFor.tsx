@@ -153,6 +153,8 @@ function ContactLink({ label, href }: { label: string; href: string }) {
   return (
     <a
       href={href}
+      target="_blank"
+      rel="noreferrer noopener"
       className="border-b border-rule pb-0.5 text-ink transition-colors duration-250 hover:border-pen hover:text-pen"
     >
       {label}
