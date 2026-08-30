@@ -100,13 +100,11 @@ function MobileHero({ reduced }: { reduced: boolean }) {
             <Underline />
           </div>
 
-          <p className="hand mt-3 text-[21px] leading-tight text-pen">
-            {identity.roleStrip}
-          </p>
+          <h1 className="sr-only">{identity.name}</h1>
 
-          <h1 className="mt-5 font-display text-[38px] leading-[1.02] font-bold tracking-[-0.02em] text-ink">
-            {identity.name}
-          </h1>
+          <p className="mt-5 font-display text-[22px] leading-[1.15] font-bold tracking-[-0.01em] text-ink uppercase">
+            {identity.tagline}
+          </p>
 
           <MobileRole reduced={reduced} />
 
