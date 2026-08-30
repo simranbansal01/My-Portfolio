@@ -301,12 +301,6 @@ export const contact = {
   ],
 } as const;
 
-export const colophon = [
-  "The Simran Times · Content edition",
-  "Set in Arial, Newsreader & Fraunces",
-  "Annotated in red",
-] as const;
-
 /** `#` is the content master's stand-in for a destination not yet decided. */
 export function isPlaceholderHref(href: string): boolean {
   return href === "#" || href === "";
