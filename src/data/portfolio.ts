@@ -15,7 +15,7 @@
 
 export const identity = {
   name: "Simran Bansal",
-  signature: "Simran",
+  signature: "Simran Bansal",
   /** The rotating line under the signature. Order is the career order. */
   roles: [
     "Finance executive.",
