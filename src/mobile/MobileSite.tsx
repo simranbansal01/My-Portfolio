@@ -102,8 +102,10 @@ function MobileHero({ reduced }: { reduced: boolean }) {
 
           <h1 className="sr-only">{identity.name}</h1>
 
-          <p className="mt-5 font-display text-[22px] leading-[1.15] font-bold tracking-[-0.01em] text-ink uppercase">
-            {identity.tagline}
+          <p className="mt-5 font-display text-[17px] leading-[1.2] font-bold tracking-[-0.01em] text-ink uppercase">
+            {identity.tagline[0]}
+            <br />
+            {identity.tagline[1]}
           </p>
 
           <MobileRole reduced={reduced} />

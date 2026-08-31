@@ -23,8 +23,9 @@ export const identity = {
     "Product builder.",
   ],
   roleStrip: "Finance executive · Systems thinker · Product builder",
-  /** The hero statement, set where the name used to be. */
-  tagline: "Currently somewhere between a question and a product.",
+  /** The hero statement, set where the name used to be. Two lines, broken
+   *  deliberately after "between". */
+  tagline: ["Currently somewhere between", "a question and a product"],
   route: "Ambala → Toronto",
   timezone: "America/Toronto",
   timezoneLabel: "GMT −05:00",

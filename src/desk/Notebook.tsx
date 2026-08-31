@@ -39,8 +39,10 @@ function HeroPage({ reduced }: { reduced: boolean }) {
 
         <h1 className="sr-only">{identity.name}</h1>
 
-        <p className="mt-6 max-w-[22rem] font-display text-[clamp(21px,3vw,36px)] leading-[1.12] font-bold tracking-[-0.01em] text-ink uppercase">
-          {identity.tagline}
+        <p className="mt-6 font-display text-[clamp(20px,2.8vw,34px)] leading-[1.14] font-bold tracking-[-0.01em] whitespace-nowrap text-ink uppercase">
+          {identity.tagline[0]}
+          <br />
+          {identity.tagline[1]}
         </p>
 
         <RotatingRole reduced={reduced} />
