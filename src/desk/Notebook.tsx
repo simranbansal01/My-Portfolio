@@ -37,13 +37,13 @@ function HeroPage({ reduced }: { reduced: boolean }) {
       <div className="relative z-10 max-w-[620px]">
         <Signature reduced={reduced} />
 
-        <p className="hand mt-1 text-[26px] text-pen md:text-[30px]">
-          {identity.roleStrip}
-        </p>
+        <h1 className="sr-only">{identity.name}</h1>
 
-        <h1 className="mt-6 font-display text-[clamp(38px,6.4vw,76px)] leading-[1.02] font-bold tracking-[-0.02em] text-ink">
-          {identity.name}
-        </h1>
+        <p className="mt-6 font-display text-[clamp(20px,2.8vw,34px)] leading-[1.14] font-bold tracking-[-0.01em] whitespace-nowrap text-ink uppercase">
+          {identity.tagline[0]}
+          <br />
+          {identity.tagline[1]}
+        </p>
 
         <RotatingRole reduced={reduced} />
 

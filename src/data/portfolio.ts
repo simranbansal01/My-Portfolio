@@ -15,7 +15,7 @@
 
 export const identity = {
   name: "Simran Bansal",
-  signature: "Simran",
+  signature: "Simran Bansal",
   /** The rotating line under the signature. Order is the career order. */
   roles: [
     "Finance executive.",
@@ -23,6 +23,9 @@ export const identity = {
     "Product builder.",
   ],
   roleStrip: "Finance executive · Systems thinker · Product builder",
+  /** The hero statement, set where the name used to be. Two lines, broken
+   *  deliberately after "between". */
+  tagline: ["Currently somewhere between", "a question and a product"],
   route: "Ambala → Toronto",
   timezone: "America/Toronto",
   timezoneLabel: "GMT −05:00",
