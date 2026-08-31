@@ -88,8 +88,89 @@ export function WorkGallery({ reduced }: { reduced: boolean }) {
             {galleryNote}
           </p>
         </div>
+
+        {/* A chalk sketch for the empty lower half of the wall: someone
+            working a magnifier along a trail of footprints — the instinct to
+            investigate, drawn on the board. */}
+        <div
+          aria-hidden="true"
+          className="chalk absolute top-[96%] left-[18%] w-[350px] rotate-[-3deg]"
+        >
+          <DetectiveDoodle />
+        </div>
       </div>
     </section>
+  );
+}
+
+/** The detective at the foot of the wall. Loose chalk, all stroke. */
+function DetectiveDoodle() {
+  return (
+    <svg
+      viewBox="0 0 380 170"
+      aria-hidden="true"
+      focusable="false"
+      className="h-full w-full"
+      style={{ filter: "url(#chalk-edge)" }}
+    >
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2.2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {/* hat */}
+        <path d="M26 48 q34 -17 66 0 q-7 7 -16 8 l-34 0 q-9 -1 -16 -8 z" />
+        <path d="M40 48 q3 -21 27 -21 q24 0 20 21" />
+        {/* head */}
+        <path d="M46 48 q3 16 20 17 q15 -1 19 -13" />
+        <path d="M44 54 q-4 3 0 6" />
+        <circle cx={53} cy={51} r={1.5} />
+        {/* trench coat */}
+        <path d="M50 64 C40 98 36 126 42 152 L92 152 C97 126 93 96 84 64" />
+        <path d="M54 64 l10 9 l10 -9" />
+        <path d="M58 74 l3 74" strokeWidth={1.4} />
+        {/* belt */}
+        <path d="M42 108 q26 8 52 0" strokeWidth={1.8} />
+        {/* back arm, in the pocket */}
+        <path d="M52 68 q-9 16 -3 34" />
+        {/* front arm to the magnifier */}
+        <path d="M82 68 C104 74 122 88 135 105" />
+        {/* legs, mid-stride */}
+        <path d="M52 152 l-7 22 q-1 4 -9 6" />
+        <path d="M82 152 l10 18 q2 4 11 5" />
+        {/* magnifier */}
+        <circle cx={148} cy={113} r={18} />
+        <circle cx={148} cy={113} r={14} strokeWidth={1.4} />
+        <path d="M161 126 l17 17" strokeWidth={3.2} />
+        {/* the footprint it has found, magnified in the lens */}
+        <path
+          d="M140 109 q-4 -8 4 -10 q11 -3 14 5 q2 6 -4 8 q-9 3 -12 -2 z"
+          strokeWidth={1.4}
+        />
+        {/* the trail off to the right */}
+        <path
+          d="M152 140 q70 -12 150 4 q38 8 64 3"
+          strokeWidth={1.6}
+          strokeDasharray="1 9"
+        />
+        <g strokeWidth={1.6}>
+          <path d="M182 140 q-4 -7 4 -9 q10 -2 12 4 q2 5 -4 7 q-8 3 -11 -2 z" />
+          <path d="M222 147 q-4 -7 4 -9 q10 -2 12 4 q2 5 -4 7 q-8 3 -11 -2 z" />
+          <path d="M262 139 q-4 -7 4 -9 q10 -2 12 4 q2 5 -4 7 q-8 3 -11 -2 z" />
+          <path d="M302 147 q-4 -7 4 -9 q10 -2 12 4 q2 5 -4 7 q-8 3 -11 -2 z" />
+        </g>
+        {/* X marks the spot */}
+        <path d="M338 150 l10 10 M348 150 l-10 10" strokeWidth={1.8} />
+        {/* a question in the air */}
+        <path
+          d="M108 42 q0 -13 12 -13 q12 0 12 11 q0 8 -11 11 l0 5"
+          strokeWidth={1.8}
+        />
+        <circle cx={121} cy={71} r={1.6} />
+      </g>
+    </svg>
   );
 }
 
